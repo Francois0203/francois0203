@@ -1,0 +1,132 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--secondary-bg);
+  padding: 10px 20px;
+  color: var(--primary-text);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: var(--box-shadow);
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.links {
+  display: flex;
+  gap: 20px;
+}
+
+.link {
+  text-decoration: none;
+  color: var(--primary-text);
+  font-size: 1rem;
+  transition: color var(--transition-speed);
+}
+
+.link:hover {
+  color: var(--accent-hover);
+}
+
+.settings {
+  position: relative;
+  cursor: pointer;
+}
+
+.wheel {
+  font-size: 1.5rem;
+  transition: transform var(--transition-speed);
+}
+
+.wheel:hover {
+  transform: rotate(20deg);
+}
+
+.dropdown {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background-color: var(--highlight-bg);
+  border-radius: 8px;
+  box-shadow: var(--box-shadow);
+  padding: 15px;
+  width: 250px;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity var(--transition-speed), visibility var(--transition-speed);
+}
+
+.dropdown.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.settings {
+  position: relative;
+  cursor: pointer;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdownItem {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px 0;
+  gap: 8px;
+  color: var(--primary-text);
+  font-size: 0.9rem;
+  transition: color var(--transition-speed), background-color var(--transition-speed);
+}
+
+.label {
+  font-size: 0.8rem;
+  color: var(--secondary-text);
+  margin-bottom: 5px;
+}
+
+.colorPicker {
+  width: 100%;
+  height: 30px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: var(--secondary-bg);
+}
+
+.colorPicker::-webkit-color-swatch {
+  border: none;
+}
+
+.colorPicker:hover {
+  box-shadow: var(--box-shadow);
+}
+
+.actionButton {
+  background: var(--secondary-bg);
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  transition: background-color var(--transition-speed);
+}
+
+.actionButton:hover {
+  background-color: var(--accent-hover);
+  color: var(--primary-text);
+}
