@@ -17,9 +17,8 @@ const NavBar = () => {
   };
 
   const resetTheme = () => {
-    // Reset to default theme colors
     const root = document.documentElement;
-    root.style.setProperty("--secondary-bg", "#4a4a4a"); // Default secondary color
+    root.style.setProperty("--secondary-bg", "#4a4a4a");
     setSecondaryColor("#4a4a4a");
   };
 
@@ -29,10 +28,9 @@ const NavBar = () => {
 
   return (
     <nav className={styles.navbar}>
-      <div className={styles.logo}>MatteGraySite</div>
+      <Link to="/" className={styles.logo}>Francois Website</Link>
       <div className={styles.links}>
-        <Link to="/" className={styles.link}>Home</Link>
-        <Link to="/about" className={styles.link}>About</Link>
+        <Link to="/about" className={styles.link}>About Me</Link>
         <Link to="/projects" className={styles.link}>Projects</Link>
       </div>
       <div
