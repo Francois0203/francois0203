@@ -1,0 +1,33 @@
+{
+  "files": {
+    "main.css": "/Francois0203/static/css/main.75b4089f.css",
+    "main.js": "/Francois0203/static/js/main.0f6ddeed.js",
+    "static/js/453.bb828c5d.chunk.js": "/Francois0203/static/js/453.bb828c5d.chunk.js",
+    "static/media/delphi.png": "/Francois0203/static/media/delphi.815019303c98bd6d0690.png",
+    "static/media/matlab.png": "/Francois0203/static/media/matlab.a9c15b238ecc3fe3bd89.png",
+    "static/media/r.png": "/Francois0203/static/media/r.3925a9d915bef82cbc65.png",
+    "static/media/python.png": "/Francois0203/static/media/python.6a5cbc319ab3ddf8ef92.png",
+    "static/media/react.png": "/Francois0203/static/media/react.17e5cb984343d1346ebd.png",
+    "static/media/github.png": "/Francois0203/static/media/github.82f9dcd194f53fd9416f.png",
+    "static/media/csharp.png": "/Francois0203/static/media/csharp.4a32f53d425c7ad4cb05.png",
+    "static/media/cplusplus.png": "/Francois0203/static/media/cplusplus.24a8f93854ab092f17a7.png",
+    "static/media/sql.png": "/Francois0203/static/media/sql.86cdb54cc5fc9c392ebd.png",
+    "static/media/docker.png": "/Francois0203/static/media/docker.c1f953a3ead577c05d04.png",
+    "static/media/java.png": "/Francois0203/static/media/java.f5dd86c3ef6ef3f85acf.png",
+    "static/media/flask.png": "/Francois0203/static/media/flask.f9340a385bdb3c9fa3e8.png",
+    "static/media/instagram.png": "/Francois0203/static/media/instagram.75e0546a6b5abe4c0506.png",
+    "static/media/sas.png": "/Francois0203/static/media/sas.e4a3222424345fa1a426.png",
+    "static/media/css.png": "/Francois0203/static/media/css.4a6549b8c2b4cda8bb88.png",
+    "static/media/linkedin.png": "/Francois0203/static/media/linkedin.f249b38224ca41a0b909.png",
+    "static/media/javascript.png": "/Francois0203/static/media/javascript.3dfb665e058d08c99f28.png",
+    "static/media/html.png": "/Francois0203/static/media/html.485b6e20561ff56f5e38.png",
+    "index.html": "/Francois0203/index.html",
+    "main.75b4089f.css.map": "/Francois0203/static/css/main.75b4089f.css.map",
+    "main.0f6ddeed.js.map": "/Francois0203/static/js/main.0f6ddeed.js.map",
+    "453.bb828c5d.chunk.js.map": "/Francois0203/static/js/453.bb828c5d.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.75b4089f.css",
+    "static/js/main.0f6ddeed.js"
+  ]
+}
