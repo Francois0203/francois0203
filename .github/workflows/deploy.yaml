@@ -28,7 +28,7 @@ jobs:
           yarn build
 
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4 # JamesIves is a user or organisation
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
           folder: website/build
