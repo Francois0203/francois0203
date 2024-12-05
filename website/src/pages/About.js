@@ -24,6 +24,9 @@ import linkedinLogo from "../logos/linkedin.png";
 import githubLogo from "../logos/github.png";
 import spotifyLogo from "../logos/spotify.png";
 
+// Import profile image
+import profileImage from "../extras/profile.png";
+
 const About = () => {
   const skills = [
     { name: "Python", confidence: 90, logo: pythonLogo, color: "#3572A5" },
@@ -52,10 +55,18 @@ const About = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Francois Meiring</h1>
-      <p className={styles.subtitle}>
-        MSc Computer Science | Data Enthusiast | System Builder
-      </p>
+      <div className={styles.profileSection}>
+        <img src={profileImage} alt="Profile" className={styles.profileImage} />
+        <h1 className={styles.title}>Francois Meiring</h1>
+        <p className={styles.subtitle}>MSc Computer Science | Full Stack Developer</p>
+      </div>
+
+      <div className={styles.section}>
+        <h2 className={styles.sectionTitle}>Quick Info</h2>
+        <p>💼 Starting at Aquatico as a Full Stack Developer in 2025</p>
+        <p>📍 Based in Pretoria, South Africa</p>
+        <p>👨‍🎓 22 years old</p>
+      </div>
 
       <div className={styles.section}>
         <h2 className={styles.sectionTitle}>Education</h2>
@@ -96,14 +107,13 @@ const About = () => {
           <div>💻 Programming</div>
           <div>🏸 Squash</div>
           <div>🎨 Painting</div>
-          <div>📷 Modeling</div>
         </div>
       </div>
 
       <div className={styles.section}>
         <h2 className={styles.sectionTitle}>Contact</h2>
-        <p>Cellphone: 065 131 0546</p>
-        <p>Email: <a href="mailto:francoismeiring0203@gmail.com" className={styles.link}>francoismeiring0203@gmail.com</a></p>
+        <p>📱 Cellphone: 065 131 0546</p>
+        <p>📧 Email: <a href="mailto:francoismeiring0203@gmail.com" className={styles.link}>francoismeiring0203@gmail.com</a></p>
       </div>
 
       <div className={styles.section}>
