@@ -1,13 +1,7 @@
-/* Define default color scheme */
-:root {
-  --primary-color: #f0f0f0; /* Default primary color */
-  --secondary-color: #4e5d6c; /* Default secondary color */
-}
-
 /* Styling for the entire page to apply custom scrollbars globally */
 * {
   scrollbar-width: thin; /* For Firefox */
-  scrollbar-color: var(--secondary-color) var(--primary-color); /* For Firefox */
+  scrollbar-color: var(--secondary-bg) var(--primary-bg); /* For Firefox */
 }
 
 /* Webkit browsers like Chrome, Safari */
@@ -16,14 +10,14 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--primary-color); /* Primary color for the track */
+  background: var(--primary-bg); /* Primary background color for the track */
   border-radius: 10px; /* Optional: rounds the corners of the track */
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: var(--secondary-color); /* Secondary color for the thumb */
+  background-color: var(--secondary-bg); /* Secondary background color for the thumb */
   border-radius: 10px; /* Rounds the thumb */
-  border: 3px solid var(--primary-color); /* Optional: creates a border around the thumb */
+  border: 3px solid var(--primary-bg); /* Optional: creates a border around the thumb */
 }
 
 ::-webkit-scrollbar-thumb:hover {
