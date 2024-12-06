@@ -22,9 +22,8 @@ jobs:
           cd website
           yarn install
 
-      - name: Replace GitHub Token Placeholder
-        run: |
-          find website/src/pages -type f -name "*.js" -exec sed -i 's/__GITHUB_TOKEN_PLACEHOLDER__/${{ secrets.REACT_APP_GITHUB_TOKEN }}/g' {} +
+      - name: Set GitHub Token as environment variable
+        run: echo "REACT_APP_GITHUB_TOKEN=${{ secrets.REACT_APP_GITHUB_TOKEN }}" >> website/.env
 
       - name: Build the app
         run: |

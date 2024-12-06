@@ -7,8 +7,12 @@ const Projects = () => {
   const [repos, setRepos] = useState([]);
   const [readmeContent, setReadmeContent] = useState({});
 
-  // Token is replaced by deployment script.
-  const GITHUB_TOKEN = "__GITHUB_TOKEN_PLACEHOLDER__";
+  // Use environment variable to get GitHub token
+  const GITHUB_TOKEN = process.env.REACT_APP_GITHUB_TOKEN;
+  
+  if (!GITHUB_TOKEN) {
+    console.error("GitHub token is not defined. Make sure the environment variable is set.");
+  }
 
   useEffect(() => {
     const fetchRepos = async () => {
@@ -34,7 +38,9 @@ const Projects = () => {
       }
     };
 
-    fetchRepos();
+    if (GITHUB_TOKEN) {
+      fetchRepos();
+    }
   }, [GITHUB_TOKEN]);
 
   const fetchReadme = async (repoFullName) => {
