@@ -22,9 +22,12 @@ jobs:
           cd website
           yarn install
 
+      - name: Replace placeholder with GitHub Token
+        run: |
+          cd website/src
+          sed -i 's/__GITHUB_TOKEN_PLACEHOLDER__/${{ secrets.REACT_APP_GITHUB_TOKEN }}/g' Projects.js
+
       - name: Build the app
-        env:
-          REACT_APP_GITHUB_TOKEN: ${{ secrets.REACT_APP_GITHUB_TOKEN }}
         run: |
           cd website
           yarn build
