@@ -1,8 +1,14 @@
-const GITHUB_TOKEN = "__GITHUB_TOKEN_PLACEHOLDER__";
+import React, { useState, useEffect } from "react";
+import styles from "./Projects.module.css";
+import { marked } from "marked";
+import ScrollBar from "../components/ScrollBar";
 
 const Projects = () => {
   const [repos, setRepos] = useState([]);
   const [readmeContent, setReadmeContent] = useState({});
+
+  // Token is replaced by deployment script.
+  const GITHUB_TOKEN = "__GITHUB_TOKEN_PLACEHOLDER__";
 
   useEffect(() => {
     const fetchRepos = async () => {
@@ -29,7 +35,7 @@ const Projects = () => {
     };
 
     fetchRepos();
-  }, []);
+  }, [GITHUB_TOKEN]);
 
   const fetchReadme = async (repoFullName) => {
     try {
