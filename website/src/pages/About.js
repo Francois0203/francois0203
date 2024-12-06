@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./About.module.css";
 
-// Import programming language logos
+// Import logos and profile image
 import pythonLogo from "../logos/python.png";
 import rLogo from "../logos/r.png";
 import sasLogo from "../logos/sas.png";
@@ -18,16 +18,22 @@ import flaskLogo from "../logos/flask.png";
 import dockerLogo from "../logos/docker.png";
 import sqlLogo from "../logos/sql.png";
 
-// Import social media logos
 import instagramLogo from "../logos/instagram.png";
 import linkedinLogo from "../logos/linkedin.png";
 import githubLogo from "../logos/github.png";
 import spotifyLogo from "../logos/spotify.png";
-
-// Import profile image
 import profileImage from "../extras/profile.png";
 
 const About = () => {
+  const [randomAnimation, setRandomAnimation] = useState("");
+
+  // Randomly apply animations on page load
+  useEffect(() => {
+    const animations = ["fadeIn", "bounceIn", "slideInFromLeft"];
+    const randomIndex = Math.floor(Math.random() * animations.length);
+    setRandomAnimation(animations[randomIndex]);
+  }, []);
+
   const skills = [
     { name: "Python", confidence: 90, logo: pythonLogo, color: "#3572A5" },
     { name: "R", confidence: 85, logo: rLogo, color: "#276DC3" },
@@ -55,27 +61,27 @@ const About = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.profileSection}>
+      <div className={`${styles.profileSection} ${styles[randomAnimation]}`}>
         <img src={profileImage} alt="Profile" className={styles.profileImage} />
         <h1 className={styles.title}>Francois Meiring</h1>
         <p className={styles.subtitle}>MSc Computer Science | Full Stack Developer</p>
       </div>
 
-      <div className={styles.section}>
+      <div className={`${styles.section} ${styles[randomAnimation]}`}>
         <h2 className={styles.sectionTitle}>Quick Info</h2>
         <p>💼 Starting at Aquatico as a Full Stack Developer in 2025</p>
         <p>📍 Based in Pretoria, South Africa</p>
         <p>👨‍🎓 22 years old</p>
       </div>
 
-      <div className={styles.section}>
+      <div className={`${styles.section} ${styles[randomAnimation]}`}>
         <h2 className={styles.sectionTitle}>Education</h2>
         <p>BSc in Computer Science and Statistics, NWU Potchefstroom</p>
         <p>Honours BSc in Computer Science, NWU Potchefstroom</p>
         <p>Currently pursuing MSc in Computer Science</p>
       </div>
 
-      <div className={styles.section}>
+      <div className={`${styles.section} ${styles[randomAnimation]}`}>
         <h2 className={styles.sectionTitle}>Skills</h2>
         <div className={styles.skillsGrid}>
           {skills.map((skill, index) => (
@@ -96,7 +102,7 @@ const About = () => {
         </div>
       </div>
 
-      <div className={styles.section}>
+      <div className={`${styles.section} ${styles[randomAnimation]}`}>
         <h2 className={styles.sectionTitle}>Hobbies</h2>
         <div className={styles.hobbiesGrid}>
           <div>🎸 Playing guitar</div>
@@ -110,13 +116,13 @@ const About = () => {
         </div>
       </div>
 
-      <div className={styles.section}>
+      <div className={`${styles.section} ${styles[randomAnimation]}`}>
         <h2 className={styles.sectionTitle}>Contact</h2>
         <p>📱 Cellphone: 065 131 0546</p>
         <p>📧 Email: <a href="mailto:francoismeiring0203@gmail.com" className={styles.link}>francoismeiring0203@gmail.com</a></p>
       </div>
 
-      <div className={styles.section}>
+      <div className={`${styles.section} ${styles[randomAnimation]}`}>
         <h2 className={styles.sectionTitle}>Socials</h2>
         <div className={styles.socialsRow}>
           {socials.map((social, index) => (

@@ -18,8 +18,8 @@ const NavBar = () => {
 
   const resetTheme = () => {
     const root = document.documentElement;
-    root.style.setProperty("--secondary-bg", "#4a4a4a");
-    setSecondaryColor("#4a4a4a");
+    root.style.setProperty("--secondary-bg", "turquoise");
+    setSecondaryColor("turquoise");
   };
 
   const handleExtraFunctionality = () => {
