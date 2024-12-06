@@ -1,68 +1,100 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: var(--primary-bg);
-    padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--primary-bg);
+  padding: 20px;
+}
+
+.title {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  animation: fadeInFromBottom var(--transition-speed) ease-in-out;
+}
+
+.projectGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.projectCard {
+  background-color: var(--primary-bg); /* Use primary background color */
+  padding: 20px;
+  border-radius: 8px;
+  color: var(--primary-text);
+  text-align: center;
+  transition: transform var(--transition-speed);
+  animation: fadeInScale var(--transition-speed) ease-in-out;
+  border: 2px solid var(--secondary-bg); /* Add secondary color outline */
+}
+
+.projectCard:hover {
+  transform: translateY(-10px); /* Removed background-color hover effect */
+}
+
+.projectCard h2 {
+  margin-bottom: 10px;
+}
+
+.projectCard p {
+  color: var(--secondary-text);
+}
+
+.languages {
+  margin-top: 10px;
+  color: var(--secondary-text);
+}
+
+.readmeButton {
+  margin-top: 10px;
+  padding: 10px 15px;
+  background-color: var(--highlight-bg);
+  border: none;
+  border-radius: 5px;
+  color: var(--primary-text);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.readmeButton:hover {
+  background-color: var(--secondary-bg);
+}
+
+.readmeContent {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: var(--primary-bg);
+  border-radius: 5px;
+  color: var(--primary-text);
+  text-align: left;
+  white-space: pre-wrap;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+@keyframes fadeInFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  
-  .title {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    animation: fadeInFromBottom var(--transition-speed) ease-in-out;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .projectGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    width: 100%;
-    max-width: 1000px;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
   }
-  
-  .projectCard {
-    background-color: var(--highlight-bg);
-    padding: 20px;
-    border-radius: 8px;
-    color: var(--primary-text);
-    text-align: center;
-    transition: transform var(--transition-speed), background-color var(--transition-speed);
-    animation: fadeInScale var(--transition-speed) ease-in-out;
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
-  
-  .projectCard:hover {
-    transform: translateY(-10px);
-    background-color: var(--secondary-bg);
-  }
-  
-  .projectCard h2 {
-    margin-bottom: 10px;
-  }
-  
-  .projectCard p {
-    color: var(--secondary-text);
-  }
-  
-  @keyframes fadeInFromBottom {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  @keyframes fadeInScale {
-    from {
-      opacity: 0;
-      transform: scale(0.8);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }  
+}
