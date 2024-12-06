@@ -46,11 +46,10 @@ const Projects = () => {
       }
 
       const response = await fetch(
-        `https://api.github.com/repos/${repoFullName}/readme`,
+        `https://api.github.com/repos/${repoFullName}/contents/README.md`,
         {
           headers: {
             Authorization: `token ${GITHUB_TOKEN}`,
-            Accept: "application/vnd.github.v3.raw",
           },
         }
       );
@@ -59,8 +58,9 @@ const Projects = () => {
         throw new Error(`Failed to fetch README.md. Status: ${response.status}`);
       }
 
-      const readme = await response.text();
-      const htmlContent = marked(readme);
+      const readme = await response.json();
+      const decodedReadme = atob(readme.content); // Decode Base64 content
+      const htmlContent = marked(decodedReadme); // Convert Markdown to HTML
 
       setReadmeContent((prev) => ({
         ...prev,

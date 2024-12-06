@@ -23,6 +23,8 @@ jobs:
           yarn install
 
       - name: Build the app
+        env:
+          REACT_APP_GITHUB_TOKEN: ${{ secrets.REACT_APP_GITHUB_TOKEN }}
         run: |
           cd website
           yarn build
