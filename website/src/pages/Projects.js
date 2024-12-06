@@ -1,12 +1,8 @@
-import React, { useState, useEffect } from "react";
-import styles from "./Projects.module.css";
-import { marked } from "marked";
-import ScrollBar from "../components/ScrollBar";
+const GITHUB_TOKEN = "__GITHUB_TOKEN_PLACEHOLDER__";
 
 const Projects = () => {
   const [repos, setRepos] = useState([]);
   const [readmeContent, setReadmeContent] = useState({});
-  const GITHUB_TOKEN = process.env.REACT_APP_GITHUB_TOKEN; // Use environment variable for the token
 
   useEffect(() => {
     const fetchRepos = async () => {
@@ -33,7 +29,7 @@ const Projects = () => {
     };
 
     fetchRepos();
-  }, [GITHUB_TOKEN]);
+  }, []);
 
   const fetchReadme = async (repoFullName) => {
     try {
