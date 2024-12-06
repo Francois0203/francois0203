@@ -22,8 +22,8 @@ jobs:
           cd website
           yarn install
 
-      - name: Set GitHub Token as environment variable
-        run: echo "REACT_APP_GITHUB_TOKEN=${{ secrets.REACT_APP_GITHUB_TOKEN }}" >> website/.env
+      - name: Set up environment variable for build
+        run: echo "REACT_APP_GITHUB_TOKEN=${{ secrets.REACT_APP_GITHUB_TOKEN }}" >> $GITHUB_ENV
 
       - name: Build the app
         run: |
