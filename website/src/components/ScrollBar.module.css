@@ -1,0 +1,43 @@
+/* Define default color scheme */
+:root {
+  --primary-color: #f0f0f0; /* Default primary color */
+  --secondary-color: #4e5d6c; /* Default secondary color */
+}
+
+/* Styling for the entire page to apply custom scrollbars globally */
+* {
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: var(--secondary-color) var(--primary-color); /* For Firefox */
+}
+
+/* Webkit browsers like Chrome, Safari */
+::-webkit-scrollbar {
+  width: 8px; /* Set the width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: var(--primary-color); /* Primary color for the track */
+  border-radius: 10px; /* Optional: rounds the corners of the track */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--secondary-color); /* Secondary color for the thumb */
+  border-radius: 10px; /* Rounds the thumb */
+  border: 3px solid var(--primary-color); /* Optional: creates a border around the thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #3a4853; /* Darker thumb on hover */
+}
+
+/* Optional: style for when the scrollbar is focused */
+::-webkit-scrollbar-thumb:focus {
+  background-color: #3a4853;
+}
+
+/* The wrapper class for components that need scrolling */
+.scrollbarContainer {
+  overflow-y: auto; /* Enable vertical scrolling */
+  max-height: 100%; /* To ensure it takes full height of the container */
+  padding-right: 10px; /* Ensure the scrollbar does not overlap content */
+}
