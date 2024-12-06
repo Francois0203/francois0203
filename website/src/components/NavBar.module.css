@@ -116,27 +116,26 @@
   border-color: var(--accent-hover);
 }
 
-/* Redesigned Action buttons in the dropdown */
 .actionButton {
   background: var(--secondary-bg);
   border: none;
-  padding: 8px 16px; /* Reduced height, more compact */
-  border-radius: 25px; /* Pill shape */
+  padding: 8px 16px; 
+  border-radius: 25px; 
   cursor: pointer;
-  font-size: 1rem; /* Standard font size */
-  font-weight: 500; /* Slightly bold for emphasis */
+  font-size: 1rem; 
+  font-weight: 500; 
   width: 100%;
   text-align: center;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Softer shadow */
-  margin-top: 10px; /* Added top margin to space buttons out */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  margin-top: 10px; 
 }
 
 .actionButton:hover {
   background-color: var(--accent-hover);
   color: var(--primary-text);
-  transform: translateY(-3px); /* Added translate for hover effect */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+  transform: translateY(-3px); 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .actionButton:focus {
@@ -145,5 +144,5 @@
 }
 
 .actionButton:active {
-  transform: translateY(1px); /* Slight bump down on active click */
+  transform: translateY(1px); 
 }
