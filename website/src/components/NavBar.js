@@ -4,7 +4,7 @@ import styles from "./NavBar.module.css";
 
 const NavBar = () => {
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [secondaryColor, setSecondaryColor] = useState("#3c3c3c");
+  const [secondaryColor, setSecondaryColor] = useState("#30d5c8");
 
   const openSettings = () => setSettingsOpen(true);
   const closeSettings = () => setSettingsOpen(false);
@@ -18,8 +18,8 @@ const NavBar = () => {
 
   const resetTheme = () => {
     const root = document.documentElement;
-    root.style.setProperty("--secondary-bg", "turquoise");
-    setSecondaryColor("turquoise");
+    root.style.setProperty("--secondary-bg", "#30d5c8");
+    setSecondaryColor("#30d5c8");
   };
 
   const handleExtraFunctionality = () => {
