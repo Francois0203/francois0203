@@ -106,9 +106,9 @@
 .colorPicker {
   width: 100%;
   height: 30px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  background-color: #fff;
+  border: 1px solid var(--secondary-bg);
+  border-radius: 8px;
+  background-color: var(--secondary-bg);
   transition: border-color 0.3s ease;
 }
 
