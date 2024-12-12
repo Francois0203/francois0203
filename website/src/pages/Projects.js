@@ -1,75 +1,31 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Projects.module.css";
-import { marked } from "marked";
 import ScrollBar from "../components/ScrollBar";
+
+const API_URL = "https://francois0203-website-backend.onrender.com/api/repos"; // Backend endpoint
 
 const Projects = () => {
   const [repos, setRepos] = useState([]);
-  const [readmeContent, setReadmeContent] = useState({});
-  const GITHUB_TOKEN = process.env.REACT_APP_GITHUB_TOKEN; // Use environment variable for the token
 
   useEffect(() => {
     const fetchRepos = async () => {
       try {
-        const response = await fetch(
-          "https://api.github.com/user/repos?visibility=all&per_page=100",
-          {
-            headers: {
-              Authorization: `token ${GITHUB_TOKEN}`,
-            },
-          }
-        );
-
+        // Fetch repositories and README content from the backend
+        const response = await fetch(API_URL);
         if (!response.ok) {
           console.error("Error fetching repositories:", response.statusText);
           return;
         }
 
-        const repos = await response.json();
-        setRepos(repos);
+        const data = await response.json();
+        setRepos(data); // Set repositories with their README content
       } catch (error) {
         console.error("Error fetching repositories:", error);
       }
     };
 
     fetchRepos();
-  }, [GITHUB_TOKEN]);
-
-  const fetchReadme = async (repoFullName) => {
-    try {
-      if (readmeContent[repoFullName]) {
-        setReadmeContent((prev) => ({
-          ...prev,
-          [repoFullName]: null,
-        }));
-        return;
-      }
-
-      const response = await fetch(
-        `https://api.github.com/repos/${repoFullName}/readme`,
-        {
-          headers: {
-            Authorization: `token ${GITHUB_TOKEN}`,
-            Accept: "application/vnd.github.v3.raw",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch README.md. Status: ${response.status}`);
-      }
-
-      const readme = await response.text();
-      const htmlContent = marked(readme);
-
-      setReadmeContent((prev) => ({
-        ...prev,
-        [repoFullName]: htmlContent,
-      }));
-    } catch (error) {
-      console.error("Error fetching README.md:", error.message);
-    }
-  };
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -86,17 +42,11 @@ const Projects = () => {
                 <p className={styles.language}>
                   Language: {repo.language || "Not specified"}
                 </p>
-                <button
-                  className={styles.readmeButton}
-                  onClick={() => fetchReadme(repo.full_name)}
-                >
-                  {readmeContent[repo.full_name] ? "Hide README" : "Show README"}
-                </button>
-                {readmeContent[repo.full_name] && (
+                {repo.readme && (
                   <div className={styles.readmeContent}>
                     <div
                       dangerouslySetInnerHTML={{
-                        __html: readmeContent[repo.full_name],
+                        __html: repo.readme, // Render the README content as HTML
                       }}
                     ></div>
                   </div>
