@@ -2,7 +2,8 @@ const express = require('express');
 const axios = require('axios');
 const router = express.Router();
 
-const GITHUB_USERNAME = 'Francois0203'; // Your GitHub username
+// Define your GitHub username here
+const GITHUB_USERNAME = 'Francois0203'; // Replace with your GitHub username
 
 // Route to fetch repositories and README files
 router.get('/repos', async (req, res) => {
@@ -48,4 +49,4 @@ router.get('/repos', async (req, res) => {
   }
 });
 
-module.exports = router;
+module.exports = router;  // Export the router to be used in index.js
