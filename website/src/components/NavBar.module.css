@@ -54,7 +54,7 @@
 }
 
 .wheel {
-  font-size: 2.2rem; /* Slightly larger for better visibility */
+  font-size: 2.2rem; 
   transition: transform 0.3s ease, color 0.3s ease;
 }
 
@@ -89,9 +89,9 @@
   flex-direction: column;
   align-items: stretch;
   padding: 12px 0;
-  gap: 18px; /* More spacing between buttons */
+  gap: 18px; 
   color: var(--primary-text);
-  font-size: 1rem; /* Slightly larger font for better legibility */
+  font-size: 1rem; 
   transition: color 0.3s ease, transform 0.3s ease;
 }
 
@@ -102,12 +102,16 @@
   margin-bottom: 8px;
 }
 
+.label:hover {
+  color: var(--tersiary-text)
+}
+
 /* Color Picker Styling */
 .colorPicker {
   width: 100%;
   height: 30px;
-  border: 1px solid var(--secondary-bg);
-  border-radius: 8px;
+  border: none;
+  border-radius: 25px;
   background-color: var(--secondary-bg);
   transition: border-color 0.3s ease;
 }
@@ -117,10 +121,10 @@
 }
 
 .actionButton {
-  background: var(--secondary-bg);
+  background-color: var(--accent-hover);
   border: none;
   padding: 8px 16px; 
-  border-radius: 25px; 
+  border-radius: 25px;
   cursor: pointer;
   font-size: 1rem; 
   font-weight: 500; 
@@ -132,7 +136,7 @@
 }
 
 .actionButton:hover {
-  background-color: var(--accent-hover);
+  background-color: var(--secondary-bg);
   color: var(--primary-text);
   transform: translateY(-3px); 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
