@@ -7,11 +7,13 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware to enable CORS
-app.use(cors({
-  origin: ['http://localhost:5000', 'https://francois0203.github.io/Francois0203'], // Adjust as needed
-  methods: 'GET, POST',
-  allowedHeaders: 'Content-Type, Authorization',
-}));
+// app.use(cors({
+//   origin: ['http://localhost:5000', 'https://francois0203.github.io/Francois0203'], // Adjust as needed
+//   methods: 'GET, POST',
+//   allowedHeaders: 'Content-Type, Authorization',
+// }));
+
+app.use(cors());
 
 // Middleware to parse JSON
 app.use(express.json());
