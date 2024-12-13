@@ -18,7 +18,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'  # Choose the version you need
+          node-version: '20'  # Choose the version you need
 
       # Step 3: Install dependencies for the backend
       - name: Install Backend Dependencies
@@ -28,7 +28,7 @@ jobs:
       # Step 4: Trigger deployment to Render using the API
       - name: Deploy to Render
         env:
-          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}  # Make sure this secret is stored in GitHub
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}  
         run: |
           curl -X POST https://api.render.com/deploy/some-web-service-id \
             -H "Authorization: Bearer $RENDER_API_KEY" \

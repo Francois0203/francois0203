@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import styles from "./Projects.module.css";
 import ScrollBar from "../components/ScrollBar";
 
-// Backend URL (change it for local or production environment)
 const API_URL = "https://francois0203-website-backend.onrender.com/api/repos"; // Backend endpoint
 //const API_URL = "http://localhost:3000/api/repos"; // Local backend endpoint
 
