@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware to enable CORS
 app.use(cors({
-  origin: ['http://localhost:5000', 'https://Francois0203.github.io/Francois0203/'], // Allow requests from your local frontend and deployed frontend
+  origin: ['http://localhost:5000', 'https://francois0203.github.io/Francois0203'], // Adjust as needed
   methods: 'GET, POST',
   allowedHeaders: 'Content-Type, Authorization',
 }));
@@ -17,8 +17,12 @@ app.use(cors({
 app.use(express.json());
 
 // Use the projects router for handling repository and README requests
-//app.use('/api', projectsRouter);
-app.use('/', projectsRouter);
+app.use('/api', projectsRouter);
+
+// Default route for health checks or root access
+app.get('/', (req, res) => {
+  res.send('Welcome to the backend! API is live at /api');
+});
 
 // Start the server
 app.listen(PORT, () => {
