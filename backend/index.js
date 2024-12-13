@@ -17,7 +17,8 @@ app.use(cors({
 app.use(express.json());
 
 // Use the projects router for handling repository and README requests
-app.use('/api', projectsRouter);
+//app.use('/api', projectsRouter);
+app.use('/', projectsRouter);
 
 // Start the server
 app.listen(PORT, () => {
