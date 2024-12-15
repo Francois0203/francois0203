@@ -3,8 +3,8 @@ import styles from "./Projects.module.css";
 import ScrollBar from "../components/ScrollBar";
 import { marked } from "marked"; // Correct import for marked
 
-//const API_URL = "https://francois0203-website-backend.onrender.com/api/repos"; // Backend endpoint
-const API_URL = "http://localhost:3000/api/repos"; // Local backend endpoint
+const API_URL = "https://francois0203-website-backend.onrender.com/api/repos"; // Backend endpoint
+//const API_URL = "http://localhost:3000/api/repos"; // Local backend endpoint
 
 const Projects = () => {
   const [repos, setRepos] = useState([]);
