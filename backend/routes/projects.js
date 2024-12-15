@@ -1,24 +1,21 @@
-const express = require('express');
-const axios = require('axios');
+const express = require("express");
+const axios = require("axios");
 const router = express.Router();
 
 // Define your GitHub username here
-const GITHUB_USERNAME = 'Francois0203'; // Replace with your GitHub username
+const GITHUB_USERNAME = "Francois0203"; // Replace with your GitHub username
 
 // Route to fetch repositories and README files
-router.get('/repos', async (req, res) => {
+router.get("/repos", async (req, res) => {
   try {
-    const reposUrl = `https://api.github.com/user/repos?visibility=all&per_page=100`;  // Fetch both public and private repositories
+    const reposUrl = `https://api.github.com/user/repos?visibility=all&per_page=100`;
 
     // Fetch repositories from GitHub
     const reposResponse = await axios.get(reposUrl, {
       headers: {
-        Authorization: `Bearer ${process.env.REACT_APP_GITHUB_TOKEN}`, // Use your GitHub token
+        Authorization: `Bearer ${process.env.REACT_APP_GITHUB_TOKEN}`, // Use REACT_APP_GITHUB_TOKEN
       },
     });
-
-    // Debugging: Log repositories fetched
-    console.log("Fetched Repositories from GitHub:", reposResponse.data);
 
     const repos = reposResponse.data;
 
@@ -30,14 +27,12 @@ router.get('/repos', async (req, res) => {
         try {
           const readmeResponse = await axios.get(readmeUrl, {
             headers: {
-              Authorization: `Bearer ${process.env.REACT_APP_GITHUB_TOKEN}`,
-              Accept: 'application/vnd.github.v3.raw',
+              Authorization: `Bearer ${process.env.REACT_APP_GITHUB_TOKEN}`, // Use REACT_APP_GITHUB_TOKEN
+              Accept: "application/vnd.github.v3.raw",
             },
           });
-          const readmeContent = readmeResponse.data;
 
-          // Return the repository data with the README content
-          return { ...repo, readme: readmeContent };
+          return { ...repo, readme: readmeResponse.data }; // Include README content
         } catch (error) {
           console.error(`Error fetching README for ${repo.name}:`, error.message);
           return { ...repo, readme: null }; // If no README, set to null
@@ -45,14 +40,11 @@ router.get('/repos', async (req, res) => {
       })
     );
 
-    // Debugging: Log repositories with README content
-    console.log("Repositories with README:", reposWithReadmes);
-
-    res.status(200).json(reposWithReadmes); // Send repositories with their README content
+    res.status(200).json(reposWithReadmes);
   } catch (error) {
-    console.error('Error fetching repositories:', error.message);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error fetching repositories:", error.message);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
-module.exports = router;  // Export the router to be used in index.js
+module.exports = router;

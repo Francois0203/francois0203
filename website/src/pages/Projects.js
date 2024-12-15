@@ -1,31 +1,36 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Projects.module.css";
 import ScrollBar from "../components/ScrollBar";
+import { marked } from "marked"; // Use marked to convert markdown to HTML
 
-const API_URL = "https://francois0203-website-backend.onrender.com/api/repos"; // Backend endpoint
-//const API_URL = "http://localhost:3000/api/repos"; // Local backend endpoint
+// Dynamically set API URL based on environment
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:3000/api/repos";
 
 const Projects = () => {
   const [repos, setRepos] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchRepos = async () => {
       try {
-        // Fetch repositories and README content from the backend
         const response = await fetch(API_URL);
         if (!response.ok) {
-          console.error("Error fetching repositories:", response.statusText);
-          return;
+          throw new Error(`Failed to fetch: ${response.statusText}`);
         }
 
         const data = await response.json();
-
-        // Debugging: Log the fetched repositories to check the data
         console.log("Fetched Repositories:", data);
 
-        setRepos(data); // Set repositories with their README content
+        // Convert markdown to HTML before setting state
+        const reposWithHTMLReadme = data.map((repo) => ({
+          ...repo,
+          readme: repo.readme ? marked(repo.readme) : null,
+        }));
+
+        setRepos(reposWithHTMLReadme);
       } catch (error) {
         console.error("Error fetching repositories:", error);
+        setError(error.message);
       }
     };
 
@@ -37,8 +42,10 @@ const Projects = () => {
       <h1 className={styles.title}>Our Projects</h1>
       <ScrollBar>
         <div className={styles.projectGrid}>
-          {repos.length === 0 ? (
-            <p>No repositories found or an error occurred.</p>
+          {error ? (
+            <p>Error: {error}</p>
+          ) : repos.length === 0 ? (
+            <p>No repositories found.</p>
           ) : (
             repos.map((repo) => (
               <div key={repo.id} className={styles.projectCard}>
@@ -48,13 +55,10 @@ const Projects = () => {
                   Language: {repo.language || "Not specified"}
                 </p>
                 {repo.readme && (
-                  <div className={styles.readmeContent}>
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: repo.readme, // Render the README content as HTML
-                      }}
-                    ></div>
-                  </div>
+                  <div
+                    className={styles.readmeContent}
+                    dangerouslySetInnerHTML={{ __html: repo.readme }}
+                  ></div>
                 )}
               </div>
             ))
