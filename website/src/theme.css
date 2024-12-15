@@ -10,6 +10,12 @@
   --hover-effect: rgba(255, 255, 255, 0.1); 
   --transition-speed: 0.3s;
   --font-family: 'Poppins', sans-serif;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-sm: 14px;
+  --font-weight-normal: 400;
+  --font-weight-bold: 700;
+  --line-height-base: 1.6;
   --box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
 }
 
@@ -23,5 +29,45 @@ body {
   font-family: var(--font-family);
   background-color: var(--primary-bg);
   color: var(--primary-text);
-  line-height: 1.6;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-base);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: var(--font-weight-bold);
+  color: var(--primary-text);
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: calc(var(--font-size-lg) + 2vw); 
+}
+
+h2 {
+  font-size: calc(var(--font-size-lg) + 1vw);
+}
+
+h3 {
+  font-size: var(--font-size-lg);
+}
+
+p {
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+}
+
+small {
+  font-size: var(--font-size-sm);
+  color: var(--secondary-text);
+}
+
+a {
+  color: var(--tersiary-text);
+  text-decoration: none;
+  transition: color var(--transition-speed);
+}
+
+a:hover {
+  color: var(--accent-hover);
 }

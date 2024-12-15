@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Projects.module.css";
 import ScrollBar from "../components/ScrollBar";
-import { marked } from "marked"; // Correct import for marked
+import { marked } from "marked"; 
 
-//const API_URL = "https://francois0203-website-backend.onrender.com/api/repos"; // Backend endpoint
-const API_URL = "http://localhost:3000/api/repos"; // Local backend endpoint
+const API_URL = "https://francois0203-website-backend.onrender.com/api/repos"; // Backend endpoint
+//const API_URL = "http://localhost:3000/api/repos"; // Local backend endpoint
 
 const Projects = () => {
   const [repos, setRepos] = useState([]);
@@ -30,7 +30,7 @@ const Projects = () => {
           readme: repo.readme ? marked(repo.readme) : null, // Convert markdown to HTML
         }));
 
-        setRepos(reposWithFormattedReadmes); // Set repositories with their parsed README content
+        setRepos(reposWithFormattedReadmes); 
       } catch (error) {
         console.error("Error fetching repositories:", error);
       }
@@ -49,7 +49,7 @@ const Projects = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Our Projects</h1>
+      <h1 className={styles.title}>My Projects</h1>
       <ScrollBar>
         <div className={styles.projectGrid}>
           {repos.length === 0 ? (
@@ -74,7 +74,7 @@ const Projects = () => {
                   <div
                     className={styles.readmeContent}
                     dangerouslySetInnerHTML={{
-                      __html: repo.readme, // Render the parsed README content
+                      __html: repo.readme, 
                     }}
                   />
                 )}
