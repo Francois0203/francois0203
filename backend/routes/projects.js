@@ -8,14 +8,17 @@ const GITHUB_USERNAME = 'Francois0203'; // Replace with your GitHub username
 // Route to fetch repositories and README files
 router.get('/repos', async (req, res) => {
   try {
-    const reposUrl = `https://api.github.com/users/${GITHUB_USERNAME}/repos?visibility=all&per_page=100`;
+    const reposUrl = `https://api.github.com/user/repos?visibility=all&per_page=100`;  // Fetch both public and private repositories
 
     // Fetch repositories from GitHub
     const reposResponse = await axios.get(reposUrl, {
       headers: {
-        Authorization: `Bearer ${process.env.REACT_APP_GITHUB_TOKEN}`,
+        Authorization: `Bearer ${process.env.REACT_APP_GITHUB_TOKEN}`, // Use your GitHub token
       },
     });
+
+    // Debugging: Log repositories fetched
+    console.log("Fetched Repositories from GitHub:", reposResponse.data);
 
     const repos = reposResponse.data;
 
@@ -41,6 +44,9 @@ router.get('/repos', async (req, res) => {
         }
       })
     );
+
+    // Debugging: Log repositories with README content
+    console.log("Repositories with README:", reposWithReadmes);
 
     res.status(200).json(reposWithReadmes); // Send repositories with their README content
   } catch (error) {

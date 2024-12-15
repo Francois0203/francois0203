@@ -19,6 +19,10 @@ const Projects = () => {
         }
 
         const data = await response.json();
+
+        // Debugging: Log the fetched repositories to check the data
+        console.log("Fetched Repositories:", data);
+
         setRepos(data); // Set repositories with their README content
       } catch (error) {
         console.error("Error fetching repositories:", error);
