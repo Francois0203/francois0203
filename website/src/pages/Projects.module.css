@@ -15,26 +15,27 @@
 }
 
 .projectGrid {
-  display: grid;
-  grid-template-columns: 1fr; /* Single column grid */
+  display: flex;
+  flex-direction: column;
   gap: 20px;
   width: 100%;
-  max-width: 1000px;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .projectCard {
-  background-color: var(--primary-bg); /* Use primary background color */
+  background-color: var(--primary-bg);
   padding: 20px;
   border-radius: 8px;
   color: var(--primary-text);
   text-align: center;
   transition: transform var(--transition-speed);
   animation: fadeInScale var(--transition-speed) ease-in-out;
-  border: 2px solid var(--secondary-bg); /* Add secondary color outline */
+  border: 2px solid var(--secondary-bg);
 }
 
 .projectCard:hover {
-  transform: translateY(-10px); /* Removed background-color hover effect */
+  transform: translateY(-10px);
 }
 
 .projectCard h2 {
@@ -73,8 +74,77 @@
   color: var(--primary-text);
   text-align: left;
   white-space: pre-wrap;
-  max-height: 300px;
+  max-height: 500px;
   overflow-y: auto;
+  cursor: default; /* Prevent pointer cursor on README content */
+}
+
+/* Styling for markdown elements */
+.readmeContent h1,
+.readmeContent h2,
+.readmeContent h3 {
+  margin-top: 20px;
+  color: var(--highlight-text);
+}
+
+.readmeContent p {
+  line-height: 1.6;
+}
+
+.readmeContent ul,
+.readmeContent ol {
+  padding-left: 20px;
+}
+
+.readmeContent table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.readmeContent table,
+.readmeContent th,
+.readmeContent td {
+  border: 1px solid #ddd;
+}
+
+.readmeContent th,
+.readmeContent td {
+  padding: 8px;
+  text-align: left;
+}
+
+.readmeContent th {
+  background-color: var(--secondary-bg);
+  color: var(--primary-text);
+}
+
+/* Table of Contents Styling */
+.readmeContent a {
+  color: var(--primary-text);
+  text-decoration: none;
+  cursor: text; /* Set the cursor to text when hovering over links */
+}
+
+.readmeContent a:hover {
+  color: var(--tertiary-text); /* Change the text color on hover */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .title {
+    font-size: 2rem;
+  }
+
+  .projectGrid {
+    width: 100%;
+    max-width: none;
+  }
+
+  .projectCard {
+    width: 100%;
+    margin: 0 auto;
+  }
 }
 
 @keyframes fadeInFromBottom {
