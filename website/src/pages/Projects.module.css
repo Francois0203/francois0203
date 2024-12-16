@@ -1,100 +1,175 @@
-.container {
+/* General body styles */
+body {
+  font-family: var(--font-family);
+  background-color: var(--primary-bg);
+  color: var(--primary-text);
+  cursor: default; /* Default cursor for the page */
+}
+
+/* Project Grid */
+.projectGrid {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: var(--primary-bg);
-  padding: 20px;
-}
-
-.title {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-  animation: fadeInFromBottom var(--transition-speed) ease-in-out;
-}
-
-.projectGrid {
-  display: grid;
-  grid-template-columns: 1fr; /* Single column grid */
-  gap: 20px;
-  width: 100%;
-  max-width: 1000px;
+  gap: 1.5em;
 }
 
 .projectCard {
-  background-color: var(--primary-bg); /* Use primary background color */
-  padding: 20px;
+  background-color: var(--highlight-bg);
+  padding: 1.5em;
   border-radius: 8px;
-  color: var(--primary-text);
+  border: 2px solid var(--secondary-bg);
+  box-shadow: var(--box-shadow);
+  transition: transform var(--transition-speed), box-shadow var(--transition-speed), border-color var(--transition-speed);
   text-align: center;
-  transition: transform var(--transition-speed);
-  animation: fadeInScale var(--transition-speed) ease-in-out;
-  border: 2px solid var(--secondary-bg); /* Add secondary color outline */
 }
 
 .projectCard:hover {
-  transform: translateY(-10px); /* Removed background-color hover effect */
+  transform: scale(1.02);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+  border-color: var(--tersiary-text);
 }
 
 .projectCard h2 {
-  margin-bottom: 10px;
+  font-size: 1.5em;
+  color: var(--tersiary-text);
+  margin-bottom: 0.5em;
 }
 
 .projectCard p {
   color: var(--secondary-text);
+  margin-bottom: 0.5em;
 }
 
-.languages {
-  margin-top: 10px;
-  color: var(--secondary-text);
-}
-
-.readmeButton {
-  margin-top: 10px;
-  padding: 10px 15px;
+/* Readme Button Styling */
+.readmeToggle {
   background-color: var(--highlight-bg);
-  border: none;
-  border-radius: 5px;
   color: var(--primary-text);
+  padding: 0.5em 1em;
+  border: 2px solid var(--secondary-bg);
+  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  margin-top: 1em;
+  transition: background-color var(--transition-speed), border-color var(--transition-speed);
 }
 
-.readmeButton:hover {
+.readmeToggle:hover {
   background-color: var(--secondary-bg);
+  border-color: var(--tersiary-text);
 }
 
+/* Readme Content */
 .readmeContent {
-  margin-top: 15px;
-  padding: 10px;
-  background-color: var(--primary-bg);
-  border-radius: 5px;
+  margin-top: 1.5em;
+  padding: 1.5em;
+  background-color: var(--highlight-bg);
+  border-radius: 8px;
+  box-shadow: var(--box-shadow);
+  color: var(--secondary-text);
+  overflow: auto;
+}
+
+.readmeContent h3 {
+  font-size: 1.8em;
+  color: var(--tersiary-text);
+  margin-top: 2em;
+}
+
+.readmeContent p {
+  color: var(--secondary-text);
+  line-height: 1.8;
+}
+
+/* Table of Contents */
+.tableOfContents {
+  margin-bottom: 1em;
+  list-style-type: none;
+  padding: 0;
+}
+
+.tocLink {
+  display: block;
+  color: var(--secondary-text);
+  margin-bottom: 0.5em;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.tocLink:hover {
+  color: var(--tersiary-text);
+}
+
+/* Languages Section Layout */
+.languages {
+  margin-top: 1.5em;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1em;
+  justify-items: center;
+}
+
+.languages h4 {
+  font-size: 1.2em;
   color: var(--primary-text);
-  text-align: left;
-  white-space: pre-wrap;
-  max-height: 300px;
-  overflow-y: auto;
+  margin-bottom: 0.5em;
+  grid-column: span 2;
 }
 
-@keyframes fadeInFromBottom {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+.languageBadge {
+  background-color: var(--highlight-bg);
+  color: var(--primary-text);
+  padding: 0.5em 1em;
+  border-radius: 8px;
+  font-size: 0.9em;
+  box-shadow: var(--box-shadow);
+  transition: background-color var(--transition-speed), transform var(--transition-speed);
+  width: 100%;
+  text-align: center;
+}
+
+.languageBadge:hover {
+  background-color: var(--secondary-bg);
+  color: var(--primary-text);
+  transform: scale(1.05);
+}
+
+/* Cursor Behavior */
+a:hover, .readmeToggle:hover, .languageBadge:hover {
+  cursor: pointer;
+}
+
+.projectCard, .languages, .readmeToggle {
+  cursor: default; /* Default cursor for most elements */
+}
+
+.projectCard h2, .projectCard p, .languages h4 {
+  cursor: text; /* Text cursor for text */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 1em;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .projectCard {
+    padding: 1em;
+  }
+
+  .title {
+    font-size: 2em;
+  }
+
+  .languages {
+    grid-template-columns: 1fr;
   }
 }
 
-@keyframes fadeInScale {
-  from {
-    opacity: 0;
-    transform: scale(0.8);
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.8em;
   }
-  to {
-    opacity: 1;
-    transform: scale(1);
+
+  .projectCard h2 {
+    font-size: 1.2em;
   }
 }
