@@ -2,31 +2,32 @@ const express = require('express');
 const axios = require('axios');
 const router = express.Router();
 
-// Define your GitHub username here
-const GITHUB_USERNAME = 'Francois0203'; // Replace with your GitHub username
+const GITHUB_USERNAME = 'Francois0203'; // Your GitHub username
 
-// Route to fetch repositories and README files
+// Route to fetch repositories, README, and languages
 router.get('/repos', async (req, res) => {
   try {
-    const reposUrl = `https://api.github.com/user/repos?visibility=all&per_page=100`;  // Fetch both public and private repositories
-
-    // Fetch repositories from GitHub
+    const reposUrl = `https://api.github.com/user/repos?visibility=all&per_page=100`;
+    
+    // Fetch all repositories for the user
     const reposResponse = await axios.get(reposUrl, {
       headers: {
-        Authorization: `Bearer ${process.env.REACT_APP_GITHUB_TOKEN}`, // Use your GitHub token
+        Authorization: `Bearer ${process.env.REACT_APP_GITHUB_TOKEN}`,
       },
     });
 
-    // Debugging: Log repositories fetched
-    console.log("Fetched Repositories from GitHub:", reposResponse.data);
-
     const repos = reposResponse.data;
 
-    // Fetch README content and languages for each repository
+    console.log(`Fetched ${repos.length} repositories for user: ${GITHUB_USERNAME}`);
+
+    // Fetch README and languages for each repository
     const reposWithDetails = await Promise.all(
       repos.map(async (repo) => {
         const readmeUrl = `https://api.github.com/repos/${repo.owner.login}/${repo.name}/readme`;
         const languagesUrl = `https://api.github.com/repos/${repo.owner.login}/${repo.name}/languages`;
+
+        let readme = null;
+        let languages = null;
 
         try {
           const readmeResponse = await axios.get(readmeUrl, {
@@ -35,36 +36,40 @@ router.get('/repos', async (req, res) => {
               Accept: 'application/vnd.github.v3.raw',
             },
           });
-          const readmeContent = readmeResponse.data;
+          readme = readmeResponse.data;
+        } catch (error) {
+          console.error(`README not found for ${repo.name}: ${error.message}`);
+        }
 
-          // Fetch languages for the repository
+        try {
           const languagesResponse = await axios.get(languagesUrl, {
             headers: {
               Authorization: `Bearer ${process.env.REACT_APP_GITHUB_TOKEN}`,
             },
           });
-          const languages = languagesResponse.data;
-
-          // Debugging: Log languages for each repo
-          console.log(`Languages for ${repo.name}:`, languages);
-
-          // Return the repository data with the README and languages
-          return { ...repo, readme: readmeContent, languages: languages };
+          languages = languagesResponse.data;
         } catch (error) {
-          console.error(`Error fetching details for ${repo.name}:`, error.message);
-          return { ...repo, readme: null, languages: null }; // If no README or languages, set to null
+          console.error(`Languages not found for ${repo.name}: ${error.message}`);
         }
+
+        return {
+          id: repo.id,
+          name: repo.name,
+          description: repo.description,
+          html_url: repo.html_url,
+          private: repo.private,
+          readme,
+          languages,
+        };
       })
     );
 
-    // Debugging: Log repositories with README and languages
-    console.log("Repositories with README and Languages:", reposWithDetails);
-
-    res.status(200).json(reposWithDetails); // Send repositories with their README and languages
+    console.log("Fetched details for all repositories.");
+    res.status(200).json(reposWithDetails);
   } catch (error) {
-    console.error('Error fetching repositories:', error.message);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error fetching repositories:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-module.exports = router;  // Export the router to be used in index.js
+module.exports = router;
