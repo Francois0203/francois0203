@@ -101,13 +101,13 @@ const Projects = () => {
                     <div className={styles.tableOfContents}>
                       <h4>Table of Contents</h4>
                       {renderTableOfContents(repo.readme).map((section, index) => (
-                        <a
+                        <button
                           key={index}
                           onClick={() => handleTocClick(section)}
                           className={styles.tocLink}
                         >
                           {section}
-                        </a>
+                        </button>
                       ))}
                     </div>
                     {/* Render Markdown using marked */}
