@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Projects.module.css";
 import ScrollBar from "../components/ScrollBar";
-import { marked } from "marked"; // Use marked to convert markdown to HTML
+import { marked } from "marked"; // Import the marked library to parse Markdown
 
-// Dynamically set API URL based on environment
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:3000/api/repos";
 
 const Projects = () => {
   const [repos, setRepos] = useState([]);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchRepos = async () => {
+      console.log("Attempting to fetch repositories from:", API_URL); // Debugging: Check API URL
       try {
         const response = await fetch(API_URL);
         if (!response.ok) {
@@ -19,18 +19,11 @@ const Projects = () => {
         }
 
         const data = await response.json();
-        console.log("Fetched Repositories:", data);
-
-        // Convert markdown to HTML before setting state
-        const reposWithHTMLReadme = data.map((repo) => ({
-          ...repo,
-          readme: repo.readme ? marked(repo.readme) : null,
-        }));
-
-        setRepos(reposWithHTMLReadme);
+        console.log("Fetched Repositories:", data); // Debugging: Log the fetched data
+        setRepos(data); // Set repositories to state
       } catch (error) {
         console.error("Error fetching repositories:", error);
-        setError(error.message);
+        setError(`Error fetching repositories: ${error.message}`);
       }
     };
 
@@ -40,25 +33,33 @@ const Projects = () => {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Our Projects</h1>
+      {error && <p className={styles.error}>{error}</p>} {/* Display error if present */}
       <ScrollBar>
         <div className={styles.projectGrid}>
-          {error ? (
-            <p>Error: {error}</p>
-          ) : repos.length === 0 ? (
-            <p>No repositories found.</p>
+          {repos.length === 0 ? (
+            <p>No repositories found or an error occurred.</p>
           ) : (
             repos.map((repo) => (
               <div key={repo.id} className={styles.projectCard}>
                 <h2>{repo.name}</h2>
                 <p>{repo.description || "No description provided."}</p>
+
+                {/* Ensure that repo.languages is an array */}
                 <p className={styles.language}>
-                  Language: {repo.language || "Not specified"}
+                  Languages:{" "}
+                  {repo.languages && repo.languages.length > 0
+                    ? repo.languages.join(", ")
+                    : "No languages specified"}
                 </p>
+
                 {repo.readme && (
-                  <div
-                    className={styles.readmeContent}
-                    dangerouslySetInnerHTML={{ __html: repo.readme }}
-                  ></div>
+                  <div className={styles.readmeContent}>
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: marked(repo.readme), // Render Markdown as HTML
+                      }}
+                    ></div>
+                  </div>
                 )}
               </div>
             ))
