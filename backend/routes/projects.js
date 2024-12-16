@@ -1,55 +1,55 @@
-const express = require('express');
-const axios = require('axios');
+const express = require("express");
+const axios = require("axios");
 const router = express.Router();
 
-const GITHUB_USERNAME = 'Francois0203'; // Your GitHub username
+// Dynamic GitHub API URL
+const GITHUB_API_BASE_URL = "https://api.github.com";
+const GITHUB_USERNAME = "Francois0203";
 
-// Route to fetch repositories, README, and languages
-router.get('/repos', async (req, res) => {
+// Helper to fetch from GitHub API
+const fetchFromGitHub = async (url, token, accept = "application/vnd.github.v3+json") => {
   try {
-    const reposUrl = `https://api.github.com/user/repos?visibility=all&per_page=100`;
-    
-    // Fetch all repositories for the user
-    const reposResponse = await axios.get(reposUrl, {
+    const response = await axios.get(url, {
       headers: {
-        Authorization: `Bearer ${process.env.REACT_APP_GITHUB_TOKEN}`,
+        Authorization: `Bearer ${token}`,
+        Accept: accept,
       },
     });
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching from ${url}: ${error.message}`);
+    throw error;
+  }
+};
 
-    const repos = reposResponse.data;
+// Route to fetch repositories
+router.get("/repos", async (req, res) => {
+  const githubToken = process.env.REACT_APP_GITHUB_TOKEN; // Use your token
+  const reposUrl = `${GITHUB_API_BASE_URL}/user/repos?visibility=all&per_page=100`;
 
-    console.log(`Fetched ${repos.length} repositories for user: ${GITHUB_USERNAME}`);
+  try {
+    // Fetch repositories from GitHub
+    const repos = await fetchFromGitHub(reposUrl, githubToken);
 
-    // Fetch README and languages for each repository
+    // Prepare repository details with README and languages
     const reposWithDetails = await Promise.all(
-      repos.map(async (repo) => {
-        const readmeUrl = `https://api.github.com/repos/${repo.owner.login}/${repo.name}/readme`;
-        const languagesUrl = `https://api.github.com/repos/${repo.owner.login}/${repo.name}/languages`;
+      repos.slice(0, 5).map(async (repo) => {
+        const readmeUrl = `${GITHUB_API_BASE_URL}/repos/${repo.owner.login}/${repo.name}/readme`;
+        const languagesUrl = `${GITHUB_API_BASE_URL}/repos/${repo.owner.login}/${repo.name}/languages`;
 
         let readme = null;
         let languages = null;
 
         try {
-          const readmeResponse = await axios.get(readmeUrl, {
-            headers: {
-              Authorization: `Bearer ${process.env.REACT_APP_GITHUB_TOKEN}`,
-              Accept: 'application/vnd.github.v3.raw',
-            },
-          });
-          readme = readmeResponse.data;
-        } catch (error) {
-          console.error(`README not found for ${repo.name}: ${error.message}`);
+          readme = await fetchFromGitHub(readmeUrl, githubToken, "application/vnd.github.v3.raw");
+        } catch {
+          console.warn(`README not found for ${repo.name}`);
         }
 
         try {
-          const languagesResponse = await axios.get(languagesUrl, {
-            headers: {
-              Authorization: `Bearer ${process.env.REACT_APP_GITHUB_TOKEN}`,
-            },
-          });
-          languages = languagesResponse.data;
-        } catch (error) {
-          console.error(`Languages not found for ${repo.name}: ${error.message}`);
+          languages = await fetchFromGitHub(languagesUrl, githubToken);
+        } catch {
+          console.warn(`Languages not found for ${repo.name}`);
         }
 
         return {
@@ -64,7 +64,6 @@ router.get('/repos', async (req, res) => {
       })
     );
 
-    console.log("Fetched details for all repositories.");
     res.status(200).json(reposWithDetails);
   } catch (error) {
     console.error("Error fetching repositories:", error.message);
