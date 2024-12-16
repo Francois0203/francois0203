@@ -1,5 +1,6 @@
 # Ignore the .env file (contains sensitive information)
 .env
+.ps1
 
 # Ignore the node_modules folder (dependencies)
 node_modules/
