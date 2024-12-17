@@ -14,16 +14,26 @@ const NavBar = () => {
     setSecondaryColor(newColor);
     const root = document.documentElement;
     root.style.setProperty("--secondary-bg", newColor);
+    root.style.setProperty("--tersiary-text", newColor);
+    root.style.setProperty("--hover-effect", `rgba(${hexToRgb(newColor)}, 0.2)`);
   };
 
   const resetTheme = () => {
+    const defaultColor = "#30d5c8";
     const root = document.documentElement;
-    root.style.setProperty("--secondary-bg", "#30d5c8");
-    setSecondaryColor("#30d5c8");
+    root.style.setProperty("--secondary-bg", defaultColor);
+    root.style.setProperty("--tersiary-text", defaultColor);
+    root.style.setProperty("--hover-effect", `rgba(${hexToRgb(defaultColor)}, 0.2)`);
+    setSecondaryColor(defaultColor);
   };
 
-  const handleExtraFunctionality = () => {
-    alert("Extra functionality executed!");
+  // Helper function to convert hex color to RGB
+  const hexToRgb = (hex) => {
+    const bigint = parseInt(hex.slice(1), 16);
+    const r = (bigint >> 16) & 255;
+    const g = (bigint >> 8) & 255;
+    const b = bigint & 255;
+    return `${r}, ${g}, ${b}`;
   };
 
   return (
@@ -59,12 +69,6 @@ const NavBar = () => {
             onClick={resetTheme}
           >
             Reset Theme
-          </button>
-          <button
-            className={`${styles.dropdownItem} ${styles.actionButton}`}
-            onClick={handleExtraFunctionality}
-          >
-            Extra Functionality
           </button>
         </div>
       </div>
