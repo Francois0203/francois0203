@@ -1,16 +1,18 @@
 :root {
-  --primary-bg: #2b2b2b; 
-  --secondary-bg: turquoise; 
-  --highlight-bg: #525252; 
-  --accent-color: #707070; 
-  --accent-hover: #5c5c5c; 
-  --primary-text: white;
-  --secondary-text: #b0b0b0; 
-  --tersiary-text: turquoise;
-  --hover-effect: rgba(255, 255, 255, 0.1); 
-  --transition-speed: 0.3s;
-  --font-family: 'Poppins', sans-serif;
-  --box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
+  --primary-bg: #1e1e1e; /* Darker gray for primary background */
+  --secondary-bg: #008080; /* Turquoise for secondary elements */
+  --highlight-bg: #333333; /* Dark gray for highlighted elements */
+  --accent-color: #505050; /* Slightly darker accent */
+  --accent-hover: #3c3c3c; /* Darker accent on hover */
+  --primary-text: #e0e0e0; /* Light gray for primary text */
+  --secondary-text: #b0b0b0; /* Gray for secondary text */
+  --tersiary-text: #00ced1; /* Turquoise for tertiary text */
+  --hover-effect: rgba(0, 128, 128, 0.2); /* Turquoise hover effect */
+  --transition-speed: 0.3s; /* Consistent transition speed */
+  --font-family: 'Poppins', sans-serif; /* Default font */
+  --heading-font-weight: 700; /* Bold headings */
+  --body-font-weight: 400; /* Normal body font weight */
+  --box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Stronger shadow for darker theme */
 }
 
 * {
@@ -24,4 +26,119 @@ body {
   background-color: var(--primary-bg);
   color: var(--primary-text);
   line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family);
+  font-weight: var(--heading-font-weight);
+  color: var(--primary-text);
+  margin: 1rem 0;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+h4 {
+  font-size: 1.5rem;
+}
+
+h5 {
+  font-size: 1.25rem;
+}
+
+h6 {
+  font-size: 1rem;
+}
+
+p {
+  margin: 0.5rem 0;
+  color: var(--secondary-text);
+}
+
+a {
+  color: var(--tersiary-text);
+  text-decoration: none;
+  transition: color var(--transition-speed);
+}
+
+a:hover {
+  color: var(--secondary-bg);
+}
+
+button {
+  font-family: var(--font-family);
+  background-color: var(--secondary-bg);
+  color: var(--primary-text);
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color var(--transition-speed);
+  box-shadow: var(--box-shadow);
+}
+
+button:hover {
+  background-color: var(--accent-hover);
+}
+
+input, textarea {
+  font-family: var(--font-family);
+  background-color: var(--highlight-bg);
+  color: var(--primary-text);
+  border: 1px solid var(--accent-color);
+  padding: 0.5rem;
+  border-radius: 5px;
+  transition: border-color var(--transition-speed);
+}
+
+input:focus, textarea:focus {
+  border-color: var(--secondary-bg);
+  outline: none;
+}
+
+.card {
+  background-color: var(--highlight-bg);
+  color: var(--primary-text);
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: var(--box-shadow);
+  transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.flex {
+  display: flex;
+  gap: 1rem;
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: block;
 }
