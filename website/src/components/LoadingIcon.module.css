@@ -1,0 +1,39 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Slightly darker overlay for better contrast */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 6px solid rgba(255, 255, 255, 0.3); /* Lighter border color for better contrast */
+  border-top: 6px solid var(--secondary-bg); /* Turquoise color from theme */
+  border-radius: 50%;
+  animation: spin 1.2s linear infinite;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+}
+
+.message {
+  color: var(--primary-text);
+  font-size: 1.5rem;
+  margin-top: 20px;
+  font-weight: var(--body-font-weight); /* Adjust font weight */
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

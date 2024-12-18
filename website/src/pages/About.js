@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./About.module.css";
+import { useLoading } from "../context/LoadingContext";
 
 // Import logos and profile image
 import pythonLogo from "../logos/python.png";
@@ -25,6 +26,7 @@ import spotifyLogo from "../logos/spotify.png";
 import profileImage from "../extras/profile.png";
 
 const About = () => {
+  const { setIsLoading } = useLoading(); // Access the loading context
   const [randomAnimation, setRandomAnimation] = useState("");
 
   // Randomly apply animations on page load
@@ -33,6 +35,23 @@ const About = () => {
     const randomIndex = Math.floor(Math.random() * animations.length);
     setRandomAnimation(animations[randomIndex]);
   }, []);
+
+  // Simulate data fetching for the page
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true); // Start loading spinner
+      try {
+        // Simulate fetching data with a delay
+        await new Promise((resolve) => setTimeout(resolve, 2000)); // Replace with actual fetch if needed
+      } catch (error) {
+        console.error("Error fetching About data:", error);
+      } finally {
+        setIsLoading(false); // Stop loading spinner
+      }
+    };
+
+    fetchData();
+  }, [setIsLoading]);
 
   const skills = [
     { name: "Python", confidence: 90, logo: pythonLogo, color: "#3572A5" },
@@ -119,7 +138,12 @@ const About = () => {
       <div className={`${styles.section} ${styles[randomAnimation]}`}>
         <h2 className={styles.sectionTitle}>Contact</h2>
         <p>📱 Cellphone: 065 131 0546</p>
-        <p>📧 Email: <a href="mailto:francoismeiring0203@gmail.com" className={styles.link}>francoismeiring0203@gmail.com</a></p>
+        <p>
+          📧 Email:{" "}
+          <a href="mailto:francoismeiring0203@gmail.com" className={styles.link}>
+            francoismeiring0203@gmail.com
+          </a>
+        </p>
       </div>
 
       <div className={`${styles.section} ${styles[randomAnimation]}`}>
