@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { marked } from "marked";
 import styles from "./Projects.module.css";
 import ScrollBar from "../components/ScrollBar";
+import { useLoading } from "../context/LoadingContext";
 
 const API_URL = process.env.NODE_ENV === "production"
   ? "https://francois0203-website-backend.onrender.com/api/repos"
@@ -11,9 +12,11 @@ const Projects = () => {
   const [repos, setRepos] = useState([]);
   const [error, setError] = useState(null);
   const [expandedRepo, setExpandedRepo] = useState(null);
+  const { setIsLoading } = useLoading(); // Access the loading context
 
   useEffect(() => {
     const fetchRepositories = async () => {
+      setIsLoading(true); // Start the loading spinner
       try {
         const response = await fetch(API_URL);
 
@@ -26,11 +29,13 @@ const Projects = () => {
       } catch (err) {
         console.error("Error fetching repositories:", err.message);
         setError(err.message);
+      } finally {
+        setIsLoading(false); // Stop the loading spinner
       }
     };
 
     fetchRepositories();
-  }, []);
+  }, [setIsLoading]);
 
   const toggleReadme = (repoId) => {
     setExpandedRepo(expandedRepo === repoId ? null : repoId);
