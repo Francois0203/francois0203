@@ -33,7 +33,7 @@ router.get("/repos", async (req, res) => {
 
     // Prepare repository details with README and languages
     const reposWithDetails = await Promise.all(
-      repos.slice(0, 5).map(async (repo) => {
+      repos.map(async (repo) => { 
         const readmeUrl = `${GITHUB_API_BASE_URL}/repos/${repo.owner.login}/${repo.name}/readme`;
         const languagesUrl = `${GITHUB_API_BASE_URL}/repos/${repo.owner.login}/${repo.name}/languages`;
 
