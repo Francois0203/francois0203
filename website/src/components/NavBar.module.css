@@ -10,13 +10,13 @@
   top: 0;
   z-index: 1000;
   box-shadow: var(--box-shadow);
-  font-family: 'Poppins', sans-serif; /* Updated font-family */
+  font-family: 'Poppins', sans-serif; 
   background: linear-gradient(160deg, var(--secondary-bg) 50%, var(--primary-bg) 50%);
   transition: background 0.5s ease;
 }
 
 .logo {
-  font-size: 2rem; /* Increased size for prominence */
+  font-size: 2rem; 
   font-weight: 600;
   color: var(--primary-text);
   letter-spacing: 1px;
@@ -37,7 +37,7 @@
 .link {
   text-decoration: none;
   color: var(--primary-text);
-  font-size: 1.1rem; /* Slightly larger font for better visibility */
+  font-size: 1.1rem; 
   font-weight: 500;
   transition: color 0.3s ease, transform 0.3s ease;
 }

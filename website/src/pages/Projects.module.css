@@ -21,6 +21,9 @@ body {
   box-shadow: var(--box-shadow);
   transition: transform var(--transition-speed), box-shadow var(--transition-speed), border-color var(--transition-speed);
   text-align: center;
+  display: flex;
+  flex-direction: column; /* Make sure items are stacked vertically */
+  align-items: center; /* Center align all elements */
 }
 
 .projectCard:hover {
@@ -38,6 +41,53 @@ body {
 .projectCard p {
   color: var(--secondary-text);
   margin-bottom: 0.5em;
+  width: 100%; /* Ensure description spans the full width */
+}
+
+/* Languages Section */
+.languages {
+  margin-top: 1.5em;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columns for languages */
+  gap: 1em;
+  justify-items: center;
+  width: 100%; /* Full width for the languages section */
+}
+
+.languages h4 {
+  font-size: 1.2em;
+  color: var(--primary-text);
+  margin-bottom: 0.5em;
+  grid-column: span 2;
+}
+
+.languageBadge {
+  background-color: var(--highlight-bg);
+  color: var(--primary-text);
+  padding: 0.5em 1em;
+  border-radius: 8px;
+  font-size: 0.9em;
+  box-shadow: var(--box-shadow);
+  transition: background-color var(--transition-speed), transform var(--transition-speed);
+  width: 100%;
+  text-align: center;
+}
+
+.languageBadge:hover {
+  background-color: var(--secondary-bg);
+  color: var(--primary-text);
+  transform: scale(1.05);
+}
+
+/* View Repository Link */
+a {
+  color: var(--primary-text);
+  text-decoration: none;
+  margin-top: 1em;
+}
+
+a:hover {
+  color: var(--tersiary-text);
 }
 
 /* Readme Button Styling */
@@ -77,59 +127,6 @@ body {
 .readmeContent p {
   color: var(--secondary-text);
   line-height: 1.8;
-}
-
-/* Table of Contents */
-.tableOfContents {
-  margin-bottom: 1em;
-  list-style-type: none;
-  padding: 0;
-}
-
-.tocLink {
-  display: block;
-  color: var(--secondary-text);
-  margin-bottom: 0.5em;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-.tocLink:hover {
-  color: var(--tersiary-text);
-}
-
-/* Languages Section Layout */
-.languages {
-  margin-top: 1.5em;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1em;
-  justify-items: center;
-}
-
-.languages h4 {
-  font-size: 1.2em;
-  color: var(--primary-text);
-  margin-bottom: 0.5em;
-  grid-column: span 2;
-}
-
-.languageBadge {
-  background-color: var(--highlight-bg);
-  color: var(--primary-text);
-  padding: 0.5em 1em;
-  border-radius: 8px;
-  font-size: 0.9em;
-  box-shadow: var(--box-shadow);
-  transition: background-color var(--transition-speed), transform var(--transition-speed);
-  width: 100%;
-  text-align: center;
-}
-
-.languageBadge:hover {
-  background-color: var(--secondary-bg);
-  color: var(--primary-text);
-  transform: scale(1.05);
 }
 
 /* Cursor Behavior */
