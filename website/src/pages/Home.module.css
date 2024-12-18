@@ -1,25 +1,36 @@
+/* Container */
 .container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: var(--primary-bg);
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--primary-bg);
+  text-align: center;
+}
+
+/* Title */
+.title {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: var(--primary-text);
+  animation: slideIn var(--transition-speed) ease-in-out;
+}
+
+/* Description */
+.description {
+  font-size: 1.2rem;
+  color: var(--secondary-text);
+}
+
+/* Keyframe Animation */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
   }
-  
-  .title {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-    animation: slideIn var(--transition-speed) ease-in-out;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .description {
-    font-size: 1.2rem;
-    color: var(--secondary-text);
-  }
-  
-  @keyframes slideIn {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }  
+}

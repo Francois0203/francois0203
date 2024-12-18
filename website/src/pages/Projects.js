@@ -4,19 +4,20 @@ import styles from "./Projects.module.css";
 import ScrollBar from "../components/ScrollBar";
 import { useLoading } from "../context/LoadingContext";
 
-const API_URL = process.env.NODE_ENV === "production"
-  ? "https://francois0203-website-backend.onrender.com/api/repos"
-  : "http://localhost:3000/api/repos"; // Automatically switch based on environment
+const API_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://francois0203-website-backend.onrender.com/api/repos"
+    : "http://localhost:3000/api/repos"; 
 
 const Projects = () => {
   const [repos, setRepos] = useState([]);
   const [error, setError] = useState(null);
   const [expandedRepo, setExpandedRepo] = useState(null);
-  const { setIsLoading } = useLoading(); // Access the loading context
+  const { setIsLoading } = useLoading(); 
 
   useEffect(() => {
     const fetchRepositories = async () => {
-      setIsLoading(true); // Start the loading spinner
+      setIsLoading(true);
       try {
         const response = await fetch(API_URL);
 
@@ -30,7 +31,7 @@ const Projects = () => {
         console.error("Error fetching repositories:", err.message);
         setError(err.message);
       } finally {
-        setIsLoading(false); // Stop the loading spinner
+        setIsLoading(false); 
       }
     };
 
@@ -57,15 +58,29 @@ const Projects = () => {
               <div key={repo.id} className={styles.projectCard}>
                 <h2>{repo.name}</h2>
                 <p>{repo.description || "No description provided."}</p>
+
+                {repo.languages && (
+                  <div className={styles.languages}>
+                    <h4>Languages:</h4>
+                    {Object.keys(repo.languages).map((language, index) => (
+                      <span key={index} className={styles.languageBadge}>
+                        {language}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
                 <a href={repo.html_url} target="_blank" rel="noopener noreferrer">
                   View Repository
                 </a>
+
                 <button
                   className={styles.readmeToggle}
                   onClick={() => toggleReadme(repo.id)}
                 >
                   {expandedRepo === repo.id ? "Hide README" : "Show README"}
                 </button>
+
                 {expandedRepo === repo.id && repo.readme && (
                   <div
                     dangerouslySetInnerHTML={{
