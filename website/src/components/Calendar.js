@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import styles from './Calendar.module.css';
 
 const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDay, setSelectedDay] = useState(null);
+  const [timeSlotsAvailability, setTimeSlotsAvailability] = useState({});
   const [selectedTimeSlots, setSelectedTimeSlots] = useState({});
 
   const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -15,45 +16,69 @@ const Calendar = () => {
   const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
   const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
 
-  const timeSlots = [
+  // Memoizing timeSlots array
+  const timeSlots = useMemo(() => [
     '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM',
     '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM',
-  ];
+  ], []);
 
-  const isPastDay = (day) => {
+  // Memoizing parseTimeSlot function
+  const parseTimeSlot = useCallback((day, timeSlot) => {
+    const [time, period] = timeSlot.split(' ');
+    const [hours, minutes] = time.split(':').map(Number);
+    const hours24 = period === 'PM' && hours !== 12 ? hours + 12 : hours % 12;
+    return new Date(currentDate.getFullYear(), currentDate.getMonth(), day, hours24, minutes);
+  }, [currentDate]);
+
+  // Memoizing isPastDay function
+  const isPastDay = useCallback((day) => {
     const today = new Date();
     const dateToCheck = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
-    return dateToCheck < today;
-  };
+    return dateToCheck.setHours(23, 59, 59, 999) < today;
+  }, [currentDate]);
+
+  useEffect(() => {
+    const today = new Date();
+    const newAvailability = {};
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      if (isPastDay(day)) {
+        newAvailability[day] = timeSlots.map(() => false);
+        continue;
+      }
+
+      const availabilityForDay = timeSlots.map((slot) => {
+        const slotTime = parseTimeSlot(day, slot);
+        return slotTime > today;
+      });
+
+      newAvailability[day] = availabilityForDay;
+    }
+
+    setTimeSlotsAvailability(newAvailability);
+  }, [currentDate, daysInMonth, isPastDay, parseTimeSlot, timeSlots]);
 
   const toggleDaySelection = (day) => {
-    if (isPastDay(day)) return;
-
-    const dayKey = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${day}`;
-    const hasSelectedSlots = selectedTimeSlots[dayKey]?.length > 0;
-
-    if (selectedDay === day && !hasSelectedSlots) {
-      setSelectedDay(null);
-    } else {
-      setSelectedDay(day);
-    }
+    if (isPastDay(day) || !timeSlotsAvailability[day]?.includes(true)) return;
+    setSelectedDay(selectedDay === day ? null : day);
   };
 
-  const toggleTimeSlotSelection = (time) => {
-    if (!selectedDay) return;
+  const toggleTimeSlotSelection = (timeIndex) => {
+    if (!selectedDay || !timeSlotsAvailability[selectedDay][timeIndex]) return;
 
-    const dayKey = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${selectedDay}`;
+    const dayKey = selectedDay;
     setSelectedTimeSlots((prev) => {
-      const daySlots = prev[dayKey] || [];
-      if (daySlots.includes(time)) {
-        const updatedSlots = daySlots.filter((slot) => slot !== time);
-        if (updatedSlots.length === 0 && selectedDay === parseInt(dayKey.split('-')[2], 10)) {
-          setSelectedDay(null); // Unselect day if no slots remain selected
-        }
-        return { ...prev, [dayKey]: updatedSlots };
-      } else {
-        return { ...prev, [dayKey]: [...daySlots, time] };
+      const currentSlots = prev[dayKey] || [];
+      const isSelected = currentSlots.includes(timeIndex);
+      const updatedSlots = isSelected
+        ? currentSlots.filter((slot) => slot !== timeIndex)
+        : [...currentSlots, timeIndex];
+
+      if (updatedSlots.length === 0) {
+        setSelectedDay(null); // Deselect day if no slots are selected
       }
+
+      return { ...prev, [dayKey]: updatedSlots };
     });
   };
 
@@ -66,14 +91,16 @@ const Calendar = () => {
 
     for (let day = 1; day <= daysInMonth; day++) {
       const isPast = isPastDay(day);
-      const dayKey = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${day}`;
-      const hasSelectedSlots = selectedTimeSlots[dayKey]?.length > 0;
+      const hasAvailableSlots = timeSlotsAvailability[day]?.includes(true);
+      const hasSelectedSlots = selectedTimeSlots[day]?.length > 0;
       const isSelected = selectedDay === day || hasSelectedSlots;
 
       days.push(
         <div key={day} className={styles.dayContainer}>
           <div
-            className={`${styles.day} ${isPast ? styles.unavailable : ''} ${isSelected ? styles.selectedDay : ''}`}
+            className={`${styles.day} ${isPast || !hasAvailableSlots ? styles.unavailable : ''} ${
+              isSelected ? styles.selectedDay : ''
+            }`}
             onClick={() => toggleDaySelection(day)}
           >
             {day}
@@ -88,22 +115,19 @@ const Calendar = () => {
   const renderTimeSlots = () => {
     if (!selectedDay) return null;
 
-    const dayKey = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${selectedDay}`;
-    const selectedSlots = selectedTimeSlots[dayKey] || [];
-
+    const selectedSlots = selectedTimeSlots[selectedDay] || [];
     return (
       <div className={styles.timeSlots}>
-        {timeSlots.map((time) => {
-          const isUnavailable = isPastDay(selectedDay);
-          const isSelected = selectedSlots.includes(time);
-
+        {timeSlots.map((time, index) => {
+          const isUnavailable = !timeSlotsAvailability[selectedDay]?.[index];
+          const isSelected = selectedSlots.includes(index);
           return (
             <div
               key={time}
               className={`${styles.timeSlot} ${isUnavailable ? styles.unavailable : ''} ${
                 isSelected ? styles.selected : ''
               }`}
-              onClick={() => !isUnavailable && toggleTimeSlotSelection(time)}
+              onClick={() => !isUnavailable && toggleTimeSlotSelection(index)}
             >
               {time}
             </div>

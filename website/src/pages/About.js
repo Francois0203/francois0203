@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./About.module.css";
 import { useLoading } from "../context/LoadingContext";
+import Calendar from "../components/Calendar";
 
 // Import logos and profile image
 import pythonLogo from "../logos/python.png";
@@ -133,6 +134,12 @@ const About = () => {
           <div>🏸 Squash</div>
           <div>🎨 Painting</div>
         </div>
+      </div>
+
+      {/* Directly displaying the Calendar component */}
+      <div className={`${styles.section} ${styles[randomAnimation]}`}>
+        <h2 className={styles.sectionTitle}>Calendar</h2>
+        <Calendar />
       </div>
 
       <div className={`${styles.section} ${styles[randomAnimation]}`}>

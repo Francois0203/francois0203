@@ -1,18 +1,42 @@
 :root {
+  /* Primary and secondary colors */
   --primary-bg: #1e1e1e; /* Darker gray for primary background */
   --secondary-bg: #00ced1; /* Turquoise for secondary elements */
+
+  /* Highlights and accents */
   --highlight-bg: #333333; /* Dark gray for highlighted elements */
   --accent-color: #505050; /* Slightly darker accent */
   --accent-hover: #3c3c3c; /* Darker accent on hover */
+
+  /* Neutral palette */
+  --neutral-light: #2c2c2c; /* Slightly lighter neutral */
+  --neutral-medium: #3a3a3a; /* Medium neutral */
+  --neutral-dark: #282828; /* Dark neutral */
+
+  /* Text colors */
   --primary-text: #e0e0e0; /* Light gray for primary text */
   --secondary-text: #b0b0b0; /* Gray for secondary text */
   --tersiary-text: #00ced1; /* Turquoise for tertiary text */
+  --muted-text: #8a8a8a; /* Muted gray for less prominent text */
+
+  /* Hover and effects */
   --hover-effect: rgba(0, 128, 128, 0.2); /* Turquoise hover effect */
+
+  /* Borders */
+  --border-light: #404040; /* Light border for contrast */
+  --border-dark: #2a2a2a; /* Darker border for subtle separation */
+
+  /* Transitions */
   --transition-speed: 0.3s; /* Consistent transition speed */
+
+  /* Shadows */
+  --box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Stronger shadow for darker theme */
+  --soft-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); /* Softer shadow for lighter elements */
+
+  /* Fonts */
   --font-family: 'Poppins', sans-serif; /* Default font */
   --heading-font-weight: 700; /* Bold headings */
   --body-font-weight: 400; /* Normal body font weight */
-  --box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Stronger shadow for darker theme */
 }
 
 * {
@@ -141,4 +165,25 @@ input:focus, textarea:focus {
 
 .visible {
   display: block;
+}
+
+/* Utility classes with added neutral tones */
+.neutral-bg-light {
+  background-color: var(--neutral-light);
+}
+
+.neutral-bg-mid {
+  background-color: var(--neutral-mid);
+}
+
+.neutral-bg-dark {
+  background-color: var(--neutral-dark);
+}
+
+.neutral-border {
+  border: 1px solid var(--neutral-mid);
+}
+
+.neutral-text {
+  color: var(--neutral-dark);
 }
