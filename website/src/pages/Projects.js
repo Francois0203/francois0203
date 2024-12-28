@@ -7,17 +7,20 @@ import { useLoading } from "../context/LoadingContext";
 const API_URL =
   process.env.NODE_ENV === "production"
     ? "https://francois0203-website-backend.onrender.com/api/repos"
-    : "http://localhost:3000/api/repos"; 
+    : "http://localhost:3000/api/repos";
 
 const Projects = () => {
   const [repos, setRepos] = useState([]);
   const [error, setError] = useState(null);
   const [expandedRepo, setExpandedRepo] = useState(null);
-  const { setIsLoading } = useLoading(); 
+  const { backendReady, setIsLoading } = useLoading(); // Destructure setIsLoading here
 
   useEffect(() => {
     const fetchRepositories = async () => {
-      setIsLoading(true);
+      if (!backendReady) return; // Only fetch if backend is ready
+
+      setIsLoading(true); // Set loading state to true
+
       try {
         const response = await fetch(API_URL);
 
@@ -31,12 +34,12 @@ const Projects = () => {
         console.error("Error fetching repositories:", err.message);
         setError(err.message);
       } finally {
-        setIsLoading(false); 
+        setIsLoading(false); // Set loading state to false after fetching is done
       }
     };
 
     fetchRepositories();
-  }, [setIsLoading]);
+  }, [backendReady, setIsLoading]); // Depend on backendReady and setIsLoading
 
   const toggleReadme = (repoId) => {
     setExpandedRepo(expandedRepo === repoId ? null : repoId);

@@ -139,6 +139,12 @@ const Calendar = () => {
 
   return (
     <div className={styles.calendarContainer}>
+      <div className={styles.description}>
+        <p>
+          Make a booking using the calendar below. If you want to make an online booking, you must book at least 2 days prior to the booking date. If you want to make a contact booking, you must at least book 7 days prior to the booking date.
+        </p>
+      </div>
+
       <div className={styles.header}>
         <button
           className={styles.navButton}
