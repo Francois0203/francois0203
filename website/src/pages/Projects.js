@@ -13,14 +13,16 @@ const Projects = () => {
   const [repos, setRepos] = useState([]);
   const [error, setError] = useState(null);
   const [expandedRepo, setExpandedRepo] = useState(null);
-  const { backendReady, setIsLoading } = useLoading(); // Destructure setIsLoading here
+  const { backendReady, setIsLoading } = useLoading();
 
   useEffect(() => {
     const fetchRepositories = async () => {
-      if (!backendReady) return; // Only fetch if backend is ready
+      if (!backendReady) {
+        console.log("Backend is not ready yet. Waiting for backend to be available...");
+        return; // Don't fetch until backend is ready
+      }
 
-      setIsLoading(true); // Set loading state to true
-
+      setIsLoading(true); // Show loading icon
       try {
         const response = await fetch(API_URL);
 
@@ -32,14 +34,14 @@ const Projects = () => {
         setRepos(data);
       } catch (err) {
         console.error("Error fetching repositories:", err.message);
-        setError(err.message);
+        setError(err.message); // Set error message in state
       } finally {
-        setIsLoading(false); // Set loading state to false after fetching is done
+        setIsLoading(false); // Hide loading icon
       }
     };
 
     fetchRepositories();
-  }, [backendReady, setIsLoading]); // Depend on backendReady and setIsLoading
+  }, [backendReady, setIsLoading]); // Trigger fetch when backend is ready
 
   const toggleReadme = (repoId) => {
     setExpandedRepo(expandedRepo === repoId ? null : repoId);
