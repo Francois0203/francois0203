@@ -14,19 +14,20 @@ export const LoadingProvider = ({ children }) => {
 
   useEffect(() => {
     const pingBackend = async () => {
-      const backendUrl =
-        process.env.NODE_ENV === "production"
-          ? "https://francois0203-website-backend.onrender.com/health"
-          : "http://localhost:3000/health";
+      const backendUrl = process.env.NODE_ENV === "production"
+        ? "https://francois0203-website-backend.onrender.com/health"
+        : "http://localhost:3000/health";
 
+      setIsLoading(true); // Start loading icon when checking backend
       try {
         const response = await axios.get(backendUrl);
         if (response.status === 200) {
-          console.log("Backend is live:", response.data);
           setBackendReady(true);
         }
       } catch (error) {
         console.error("Failed to connect to the backend:", error);
+      } finally {
+        setIsLoading(false); // Stop loading icon after backend readiness check
       }
     };
 
