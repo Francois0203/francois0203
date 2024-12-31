@@ -1,89 +1,37 @@
-/* Loading Icon Overlay */
+/* Overlay */
 .overlay {
   position: fixed;
-  top: 0;
+  top: 60px; /* Adjusted to be below the navigation bar */
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: calc(100vh - 60px); /* Adjusted to cover the rest of the page */
   background: rgba(0, 0, 0, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 9999;
-}
-
-/* Pulsating Background Animation */
-.pulsatingBackground {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: radial-gradient(circle, var(--secondary-bg) 10%, transparent 10%);
-  background-size: 50px 50px;
-  animation: pulsate 2s infinite ease-in-out;
-}
-
-@keyframes pulsate {
-  0% {
-    transform: scale(1);
-    opacity: 0.3;
-  }
-  50% {
-    transform: scale(1.5);
-    opacity: 0.7;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 0.3;
-  }
+  pointer-events: none;
+  position: relative;
 }
 
 /* Spinner Container */
 .spinnerContainer {
   text-align: center;
-  position: relative;
-  z-index: 10;
   color: var(--primary-text);
   font-family: var(--font-family);
 }
 
+/* Circular Spinner */
 .mainSpinner {
-  position: relative;
+  border: 8px solid rgba(255, 255, 255, 0.3); 
+  border-top: 8px solid var(--secondary-bg); 
+  border-radius: 50%;
   width: 80px;
   height: 80px;
-  margin: 0 auto;
   animation: spin 1.5s linear infinite;
 }
 
-.segment {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: var(--secondary-bg);
-  animation: segmentAnimation 1.5s ease-in-out infinite;
-}
-
-.segment:nth-child(1) {
-  top: 0;
-  left: 0;
-  animation-delay: 0s;
-}
-
-.segment:nth-child(2) {
-  top: 0;
-  right: 0;
-  animation-delay: 0.3s;
-}
-
-.segment:nth-child(3) {
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  animation-delay: 0.6s;
-}
-
+/* Spinner Animation */
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -93,37 +41,53 @@
   }
 }
 
-@keyframes segmentAnimation {
-  0% {
-    transform: scale(0.5);
-    opacity: 0.5;
-  }
-  50% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(0.5);
-    opacity: 0.5;
-  }
-}
-
-/* Loading Message */
+/* Message Styling */
 .message {
-  margin-top: 20px;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   color: var(--primary-text);
-  animation: fadeIn 2s ease-in-out infinite;
+  font-weight: 600;
+  letter-spacing: 1px;
+  opacity: 0;
+  animation: fadeIn 2s ease-in-out forwards;
 }
 
+/* Fade In Animation */
 @keyframes fadeIn {
   0% {
     opacity: 0;
   }
-  50% {
+  100% {
     opacity: 1;
   }
+}
+
+/* Bubble Container */
+.bubbleContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Make sure the bubbles don't interfere with other UI elements */
+}
+
+/* Individual Bubbles */
+.bubble {
+  position: absolute;
+  bottom: 0;
+  background-color: var(--secondary-bg);
+  border-radius: 50%;
+  opacity: 0.6;
+  animation: floatUp linear infinite;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
   100% {
+    transform: translateY(-100vh); /* Move bubbles up */
     opacity: 0;
   }
 }
