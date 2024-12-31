@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { marked } from "marked";
-import DOMPurify from "dompurify"; // Sanitize README content
 import styles from "./Projects.module.css";
 import ScrollBar from "../components/ScrollBar";
 import { useLoading } from "../context/LoadingContext";
@@ -14,16 +13,13 @@ const Projects = () => {
   const [repos, setRepos] = useState([]);
   const [error, setError] = useState(null);
   const [expandedRepo, setExpandedRepo] = useState(null);
-  const { backendReady, setIsLoading } = useLoading();
+  const { backendReady, setIsLoading, isLoading } = useLoading();
 
   useEffect(() => {
     const fetchRepositories = async () => {
-      if (!backendReady) {
-        console.log("Backend is not ready yet.");
-        return;
-      }
+      if (!backendReady) return; // Only fetch when backend is ready
 
-      setIsLoading(true); // Show loading icon while fetching
+      setIsLoading(true); // Show loading icon during fetch
       try {
         const response = await fetch(API_URL);
 
@@ -37,16 +33,20 @@ const Projects = () => {
         console.error("Error fetching repositories:", err.message);
         setError(err.message);
       } finally {
-        setIsLoading(false); // Hide loading icon
+        setIsLoading(false); // Hide loading icon after fetch
       }
     };
 
     fetchRepositories();
-  }, [backendReady, setIsLoading]);
+  }, [backendReady, setIsLoading]); // Trigger fetch when backend is ready
 
   const toggleReadme = (repoId) => {
     setExpandedRepo(expandedRepo === repoId ? null : repoId);
   };
+
+  if (isLoading) {
+    return <div className={styles.loading}>Loading...</div>; // Show loading icon
+  }
 
   if (error) {
     return <p className={styles.error}>Error: {error}</p>;
@@ -90,7 +90,7 @@ const Projects = () => {
                 {expandedRepo === repo.id && repo.readme && (
                   <div
                     dangerouslySetInnerHTML={{
-                      __html: DOMPurify.sanitize(marked(repo.readme)),
+                      __html: marked(repo.readme),
                     }}
                     className={styles.markdown}
                   ></div>
