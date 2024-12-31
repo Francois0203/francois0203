@@ -14,12 +14,12 @@ export const LoadingProvider = ({ children }) => {
 
   useEffect(() => {
     const pingBackend = async () => {
-      const backendUrl = process.env.NODE_ENV === "production"
-        ? "https://francois0203-website-backend.onrender.com/health"
-        : "http://localhost:3000/health";
+      const backendUrl =
+        process.env.NODE_ENV === "production"
+          ? "https://francois0203-website-backend.onrender.com/health"
+          : "http://localhost:3000/health";
 
       try {
-        // Ping the backend (non-blocking)
         const response = await axios.get(backendUrl);
         if (response.status === 200) {
           console.log("Backend is live:", response.data);
@@ -30,12 +30,13 @@ export const LoadingProvider = ({ children }) => {
       }
     };
 
-    // Call the backend in the background
     pingBackend();
   }, []);
 
   return (
-    <LoadingContext.Provider value={{ backendReady, setBackendReady, isLoading, setIsLoading }}>
+    <LoadingContext.Provider
+      value={{ backendReady, setBackendReady, isLoading, setIsLoading }}
+    >
       {children}
     </LoadingContext.Provider>
   );

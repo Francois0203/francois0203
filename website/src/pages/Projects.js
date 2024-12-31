@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { marked } from "marked";
+import DOMPurify from "dompurify"; // Sanitize README content
 import styles from "./Projects.module.css";
 import ScrollBar from "../components/ScrollBar";
 import { useLoading } from "../context/LoadingContext";
@@ -18,11 +19,11 @@ const Projects = () => {
   useEffect(() => {
     const fetchRepositories = async () => {
       if (!backendReady) {
-        console.log("Backend is not ready yet. Waiting for backend to be available...");
-        return; // Don't fetch until backend is ready
+        console.log("Backend is not ready yet.");
+        return;
       }
 
-      setIsLoading(true); // Show loading icon
+      setIsLoading(true); // Show loading icon while fetching
       try {
         const response = await fetch(API_URL);
 
@@ -34,14 +35,14 @@ const Projects = () => {
         setRepos(data);
       } catch (err) {
         console.error("Error fetching repositories:", err.message);
-        setError(err.message); // Set error message in state
+        setError(err.message);
       } finally {
         setIsLoading(false); // Hide loading icon
       }
     };
 
     fetchRepositories();
-  }, [backendReady, setIsLoading]); // Trigger fetch when backend is ready
+  }, [backendReady, setIsLoading]);
 
   const toggleReadme = (repoId) => {
     setExpandedRepo(expandedRepo === repoId ? null : repoId);
@@ -89,7 +90,7 @@ const Projects = () => {
                 {expandedRepo === repo.id && repo.readme && (
                   <div
                     dangerouslySetInnerHTML={{
-                      __html: marked(repo.readme),
+                      __html: DOMPurify.sanitize(marked(repo.readme)),
                     }}
                     className={styles.markdown}
                   ></div>

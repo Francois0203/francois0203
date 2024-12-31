@@ -1,20 +1,19 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import NavBar from './components/NavBar';
-import Home from './pages/Home';
-import About from './pages/About';
-import Projects from './pages/Projects';
-import LoadingIcon from './components/LoadingIcon'; // Import the LoadingIcon component
-import { useLoading } from './context/LoadingContext'; // Import the useLoading hook
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import NavBar from "./components/NavBar";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Projects from "./pages/Projects";
+import LoadingIcon from "./components/LoadingIcon"; // Loading icon
+import { useLoading } from "./context/LoadingContext";
 
 const App = () => {
-  const { isLoading } = useLoading(); // Get the loading state from context
+  const { isLoading } = useLoading();
 
   return (
     <Router basename="/Francois0203">
       <NavBar />
-      {/* Show the LoadingIcon only when isLoading is true */}
-      {isLoading && <LoadingIcon />}
+      {isLoading && <LoadingIcon />} {/* Display the loading icon if active */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
