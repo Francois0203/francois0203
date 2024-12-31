@@ -3,7 +3,7 @@ import styles from "./LoadingIcon.module.css";
 import { LoadingContext } from "../context/LoadingContext";
 
 const LoadingIcon = () => {
-  const { isLoading } = useContext(LoadingContext);
+  const { isLoading } = useContext(LoadingContext); // Access the loading state from context
   const bubbleContainerRef = useRef(null); // Reference to the bubble container
 
   // Function to generate random bubbles

@@ -18,6 +18,7 @@ const Home = () => {
         }
       } catch (error) {
         console.error("Error simulating Home data load:", error);
+        // Optionally show a fallback error message or retry mechanism
       } finally {
         setIsLoading(false); // Stop loading animation
       }
