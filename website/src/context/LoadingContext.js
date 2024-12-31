@@ -1,24 +1,34 @@
+// LoadingContext.js
 import React, { createContext, useState, useContext, useEffect } from "react";
 import axios from "axios";
 
-const LoadingContext = createContext({
-  backendReady: false,
-  setBackendReady: () => {},
+// Create context for loading state
+export const LoadingContext = createContext({
   isLoading: false,
   setIsLoading: () => {},
+  backendReady: false,
+  setBackendReady: () => {},
+  triggerLoading: () => {},
 });
 
 export const LoadingProvider = ({ children }) => {
-  const [backendReady, setBackendReady] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // General loading state
+  const [backendReady, setBackendReady] = useState(false); // Backend readiness state
 
+  // Helper function to manage loading state
+  const triggerLoading = (state) => {
+    setIsLoading(state);
+  };
+
+  // Effect to check backend status when the app loads
   useEffect(() => {
     const pingBackend = async () => {
-      const backendUrl = process.env.NODE_ENV === "production"
-        ? "https://francois0203-website-backend.onrender.com/health"
-        : "http://localhost:3000/health";
+      const backendUrl =
+        process.env.NODE_ENV === "production"
+          ? "https://francois0203-website-backend.onrender.com/health"
+          : "http://localhost:3000/health";
 
-      setIsLoading(true); // Start loading icon when checking backend
+      setIsLoading(true); // Show loading indicator when checking backend
       try {
         const response = await axios.get(backendUrl);
         if (response.status === 200) {
@@ -27,7 +37,7 @@ export const LoadingProvider = ({ children }) => {
       } catch (error) {
         console.error("Failed to connect to the backend:", error);
       } finally {
-        setIsLoading(false); // Stop loading icon after backend readiness check
+        setIsLoading(false); // Hide loading indicator after backend check
       }
     };
 
@@ -36,13 +46,20 @@ export const LoadingProvider = ({ children }) => {
 
   return (
     <LoadingContext.Provider
-      value={{ backendReady, setBackendReady, isLoading, setIsLoading }}
+      value={{
+        isLoading,
+        setIsLoading,
+        backendReady,
+        setBackendReady,
+        triggerLoading,
+      }}
     >
       {children}
     </LoadingContext.Provider>
   );
 };
 
+// Custom hook to access loading context
 export const useLoading = () => {
   const context = useContext(LoadingContext);
 
