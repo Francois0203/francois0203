@@ -46,8 +46,8 @@ const Projects = () => {
     fetchRepositories();
   }, [backendReady, setIsLoading]); // Trigger fetch when backend is ready
 
-  if (isLoading) {
-    return <LoadingIcon />; // Show loading icon if data is loading
+  if (!backendReady || isLoading) {
+    return <LoadingIcon />; // Show loading icon if data is loading or backend isn't ready
   }
 
   if (error) {

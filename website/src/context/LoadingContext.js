@@ -1,14 +1,13 @@
-// LoadingContext.js
 import React, { createContext, useState, useContext, useEffect } from "react";
 import axios from "axios";
 
 // Create context for loading state
 export const LoadingContext = createContext({
-  isLoading: false,
+  isLoading: false, // General loading state for specific pages
   setIsLoading: () => {},
-  backendReady: false,
+  backendReady: false, // Whether the backend is ready
   setBackendReady: () => {},
-  triggerLoading: () => {},
+  triggerLoading: () => {}, // Function to trigger the loading state
 });
 
 export const LoadingProvider = ({ children }) => {
@@ -32,7 +31,7 @@ export const LoadingProvider = ({ children }) => {
       try {
         const response = await axios.get(backendUrl);
         if (response.status === 200) {
-          setBackendReady(true);
+          setBackendReady(true); // Backend is ready
         }
       } catch (error) {
         console.error("Failed to connect to the backend:", error);
@@ -42,16 +41,16 @@ export const LoadingProvider = ({ children }) => {
     };
 
     pingBackend();
-  }, []);
+  }, []); // Run this effect once when the app is loaded
 
   return (
     <LoadingContext.Provider
       value={{
-        isLoading,
-        setIsLoading,
-        backendReady,
-        setBackendReady,
-        triggerLoading,
+        isLoading, // Can be used for page-level loading
+        setIsLoading, // To manually set loading state from other components
+        backendReady, // Backend readiness status
+        setBackendReady, // To manually set backend readiness (if needed)
+        triggerLoading, // Function to manage loading state
       }}
     >
       {children}
