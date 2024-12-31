@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./About.module.css";
 import { useLoading } from "../context/LoadingContext";
+import LoadingIcon from "../components/LoadingIcon"; // Import LoadingIcon
 import Calendar from "../components/Calendar";
 
 // Import logos and profile image
@@ -27,7 +28,7 @@ import spotifyLogo from "../logos/spotify.png";
 import profileImage from "../extras/profile.png";
 
 const About = () => {
-  const { setIsLoading } = useLoading(); // Access the loading context
+  const { isLoading, setIsLoading } = useLoading(); // Access the loading context
   const [randomAnimation, setRandomAnimation] = useState("");
 
   // Randomly apply animations on page load
@@ -53,6 +54,10 @@ const About = () => {
 
     fetchData();
   }, [setIsLoading]);
+
+  if (isLoading) {
+    return <LoadingIcon />; // Return the loading icon if loading is true
+  }
 
   const skills = [
     { name: "Python", confidence: 90, logo: pythonLogo, color: "#3572A5" },

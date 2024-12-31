@@ -3,6 +3,7 @@ import { marked } from "marked";
 import styles from "./Projects.module.css";
 import ScrollBar from "../components/ScrollBar";
 import { useLoading } from "../context/LoadingContext";
+import LoadingIcon from "../components/LoadingIcon"; // Import LoadingIcon
 
 const API_URL =
   process.env.NODE_ENV === "production"
@@ -14,6 +15,11 @@ const Projects = () => {
   const [error, setError] = useState(null);
   const [expandedRepo, setExpandedRepo] = useState(null);
   const { backendReady, setIsLoading, isLoading } = useLoading();
+
+  // Function to toggle the expanded README for a repository
+  const toggleReadme = (repoId) => {
+    setExpandedRepo(expandedRepo === repoId ? null : repoId);
+  };
 
   useEffect(() => {
     const fetchRepositories = async () => {
@@ -40,12 +46,8 @@ const Projects = () => {
     fetchRepositories();
   }, [backendReady, setIsLoading]); // Trigger fetch when backend is ready
 
-  const toggleReadme = (repoId) => {
-    setExpandedRepo(expandedRepo === repoId ? null : repoId);
-  };
-
   if (isLoading) {
-    return <div className={styles.loading}>Loading...</div>; // Show loading icon
+    return <LoadingIcon />; // Show loading icon if data is loading
   }
 
   if (error) {
