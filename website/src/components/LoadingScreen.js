@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./LoadingScreen.module.css";
 import useBackend from "../utils/useBackend"; // Importing the custom hook
 
 const LoadingIcon = () => {
+  const [fadeOut, setFadeOut] = useState(false); // State to trigger fade-out effect
   const bubbleContainerRef = useRef(null); // Reference to the bubble container
   const { loading } = useBackend(); // Using the custom hook to check backend status
 
@@ -45,10 +46,17 @@ const LoadingIcon = () => {
     return cleanupBubbles;
   }, []);
 
+  // When backend is ready, trigger fade-out effect
+  useEffect(() => {
+    if (!loading) {
+      setFadeOut(true); // Trigger fade-out after backend is ready
+    }
+  }, [loading]);
+
   // If backend is still loading, display loading message
   if (loading) {
     return (
-      <div className={styles.overlay}>
+      <div className={`${styles.overlay} ${fadeOut ? styles.fadeOut : ""}`}>
         <div className={styles.spinnerContainer}>
           <div className={styles.mainSpinner}>
             <span className={styles.segment}></span>
@@ -63,7 +71,7 @@ const LoadingIcon = () => {
   }
 
   // If backend is ready, return null or an empty container to show the page
-  return null; 
+  return null;
 };
 
 export default LoadingIcon;
