@@ -15,6 +15,7 @@ const Projects = () => {
   const [error, setError] = useState(null);
   const [expandedRepo, setExpandedRepo] = useState(null);
   const { loading, isBackendReady } = useBackend(); // Get backend status and loading state
+  const [isFetchingData, setIsFetchingData] = useState(false); // Track fetching data state
 
   // Function to toggle the expanded README for a repository
   const toggleReadme = (repoId) => {
@@ -24,6 +25,8 @@ const Projects = () => {
   useEffect(() => {
     const fetchRepositories = async () => {
       if (!isBackendReady) return; // Prevent fetching if backend is not ready
+
+      setIsFetchingData(true); // Start fetching data
 
       try {
         const response = await fetch(API_URL);
@@ -37,14 +40,16 @@ const Projects = () => {
       } catch (err) {
         console.error("Error fetching repositories:", err.message);
         setError(err.message);
+      } finally {
+        setIsFetchingData(false); // End fetching data
       }
     };
 
     fetchRepositories();
   }, [isBackendReady]); // Fetch repositories when backend is ready
 
-  if (loading) {
-    return <LoadingScreen />; // Show the custom loading screen while backend is loading
+  if (loading || isFetchingData) {
+    return <LoadingScreen />; // Show the custom loading screen while either backend or data is loading
   }
 
   if (!isBackendReady) {
