@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "./About.module.css";
-import { useLoading } from "../context/LoadingContext";
-import LoadingIcon from "../components/LoadingIcon"; // Import LoadingIcon
 import Calendar from "../components/Calendar";
+import useBackend from "../utils/useBackend"; // Import the backend check hook
+import LoadingScreen from "../components/LoadingScreen"; // Import the LoadingScreen component
 
 // Import logos and profile image
 import pythonLogo from "../logos/python.png";
@@ -28,8 +28,8 @@ import spotifyLogo from "../logos/spotify.png";
 import profileImage from "../extras/profile.png";
 
 const About = () => {
-  const { isLoading, setIsLoading } = useLoading(); // Access the loading context
   const [randomAnimation, setRandomAnimation] = useState("");
+  const { loading, isBackendReady } = useBackend(); // Get backend status and loading state
 
   // Randomly apply animations on page load
   useEffect(() => {
@@ -37,27 +37,6 @@ const About = () => {
     const randomIndex = Math.floor(Math.random() * animations.length);
     setRandomAnimation(animations[randomIndex]);
   }, []);
-
-  // Simulate data fetching for the page
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true); // Start loading spinner
-      try {
-        // Simulate fetching data with a delay
-        await new Promise((resolve) => setTimeout(resolve, 2000)); // Replace with actual fetch if needed
-      } catch (error) {
-        console.error("Error fetching About data:", error);
-      } finally {
-        setIsLoading(false); // Stop loading spinner
-      }
-    };
-
-    fetchData();
-  }, [setIsLoading]);
-
-  if (isLoading) {
-    return <LoadingIcon />; // Return the loading icon if loading is true
-  }
 
   const skills = [
     { name: "Python", confidence: 90, logo: pythonLogo, color: "#3572A5" },
@@ -83,6 +62,14 @@ const About = () => {
     { name: "GitHub", url: "https://github.com/Francois0203", logo: githubLogo },
     { name: "Spotify", url: "https://open.spotify.com/user/sfg2o0rk75xfki3r2074qjbh0?si=5d6f997e1de64081", logo: spotifyLogo },
   ];
+
+  if (loading) {
+    return <LoadingScreen />; // Show the custom loading screen while backend is loading
+  }
+
+  if (!isBackendReady) {
+    return <p>Backend is not ready. Please try again later.</p>; // Show this message if backend is not ready
+  }
 
   return (
     <div className={styles.container}>

@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useRef } from "react";
-import styles from "./LoadingIcon.module.css";
-import { LoadingContext } from "../context/LoadingContext";
+import React, { useEffect, useRef } from "react";
+import styles from "./LoadingScreen.module.css";
+import useBackend from "../utils/useBackend"; // Importing the custom hook
 
 const LoadingIcon = () => {
-  const { isLoading } = useContext(LoadingContext); // Access the loading state from context
   const bubbleContainerRef = useRef(null); // Reference to the bubble container
+  const { loading } = useBackend(); // Using the custom hook to check backend status
 
   // Function to generate random bubbles
   const generateBubbles = () => {
@@ -12,12 +12,12 @@ const LoadingIcon = () => {
     for (let i = 0; i < numberOfBubbles; i++) {
       const bubble = document.createElement("div");
       bubble.classList.add(styles.bubble);
-      
+
       // Random size, position, and animation duration
       const size = Math.random() * 30 + 10; // Random size between 10px and 40px
       const left = Math.random() * 100; // Random horizontal position (percentage)
       const animationDuration = Math.random() * 4 + 4; // Random animation duration between 4s and 8s
-      
+
       bubble.style.width = `${size}px`;
       bubble.style.height = `${size}px`;
       bubble.style.left = `${left}%`;
@@ -30,11 +30,9 @@ const LoadingIcon = () => {
 
   // Generate bubbles when the component is mounted
   useEffect(() => {
-    if (isLoading) {
-      generateBubbles();
-    }
+    generateBubbles();
 
-    // Cleanup bubbles when component unmounts or loading changes
+    // Cleanup bubbles when component unmounts
     const cleanupBubbles = () => {
       if (bubbleContainerRef.current) {
         while (bubbleContainerRef.current.firstChild) {
@@ -43,27 +41,29 @@ const LoadingIcon = () => {
       }
     };
 
-    // Perform cleanup on loading state change or unmount
+    // Perform cleanup on unmount
     return cleanupBubbles;
-  }, [isLoading]);
+  }, []);
 
-  if (!isLoading) {
-    return null; // Don't render the loading icon if not in loading state
+  // If backend is still loading, display loading message
+  if (loading) {
+    return (
+      <div className={styles.overlay}>
+        <div className={styles.spinnerContainer}>
+          <div className={styles.mainSpinner}>
+            <span className={styles.segment}></span>
+            <span className={styles.segment}></span>
+            <span className={styles.segment}></span>
+          </div>
+          <p className={styles.message}>Fetching magic, hold tight...</p>
+        </div>
+        <div className={styles.bubbleContainer} ref={bubbleContainerRef}></div>
+      </div>
+    );
   }
 
-  return (
-    <div className={styles.overlay}>
-      <div className={styles.spinnerContainer}>
-        <div className={styles.mainSpinner}>
-          <span className={styles.segment}></span>
-          <span className={styles.segment}></span>
-          <span className={styles.segment}></span>
-        </div>
-        <p className={styles.message}>Fetching magic, hold tight...</p>
-      </div>
-      <div className={styles.bubbleContainer} ref={bubbleContainerRef}></div>
-    </div>
-  );
+  // If backend is ready, return null or an empty container to show the page
+  return null; 
 };
 
 export default LoadingIcon;

@@ -1,34 +1,17 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styles from "./Home.module.css";
-import { useLoading } from "../context/LoadingContext";
-import LoadingIcon from "../components/LoadingIcon"; // Make sure to import LoadingIcon
+import useBackend from "../utils/useBackend"; // Import the backend check hook
+import LoadingScreen from "../components/LoadingScreen"; // Import the LoadingScreen component
 
 const Home = () => {
-  const { isLoading, setIsLoading } = useLoading(); // Access loading context
+  const { loading, isBackendReady } = useBackend(); // Get backend status and loading state
 
-  useEffect(() => {
-    const simulateLoading = async () => {
-      setIsLoading(true); // Start the loading animation
-      try {
-        if (process.env.NODE_ENV === "development") {
-          // Simulate a 2-second loading in development
-          await new Promise((resolve) => setTimeout(resolve, 2000));
-        } else {
-          // In production, loading will happen based on backend readiness
-        }
-      } catch (error) {
-        console.error("Error simulating Home data load:", error);
-        // Optionally show a fallback error message or retry mechanism
-      } finally {
-        setIsLoading(false); // Stop loading animation
-      }
-    };
+  if (loading) {
+    return <LoadingScreen />; // Show the custom loading screen while backend is loading
+  }
 
-    simulateLoading();
-  }, [setIsLoading]);
-
-  if (isLoading) {
-    return <LoadingIcon />; // Return the loading icon if loading is true
+  if (!isBackendReady) {
+    return <p>Backend is not ready. Please try again later.</p>; // Show this message if backend is not ready
   }
 
   return (
