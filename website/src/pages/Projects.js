@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { marked } from "marked";
 import styles from "./Projects.module.css";
 import ScrollBar from "../components/ScrollBar";
-import { useLoading } from "../context/LoadingContext";
-import LoadingIcon from "../components/LoadingIcon"; // Import LoadingIcon
+import useBackend from "../utils/useBackend"; // Import the backend check hook
+import LoadingScreen from "../components/LoadingScreen"; // Import the LoadingScreen component
 
 const API_URL =
   process.env.NODE_ENV === "production"
@@ -14,7 +14,7 @@ const Projects = () => {
   const [repos, setRepos] = useState([]);
   const [error, setError] = useState(null);
   const [expandedRepo, setExpandedRepo] = useState(null);
-  const { backendReady, setIsLoading, isLoading } = useLoading();
+  const { loading, isBackendReady } = useBackend(); // Get backend status and loading state
 
   // Function to toggle the expanded README for a repository
   const toggleReadme = (repoId) => {
@@ -23,9 +23,8 @@ const Projects = () => {
 
   useEffect(() => {
     const fetchRepositories = async () => {
-      if (!backendReady) return; // Only fetch when backend is ready
+      if (!isBackendReady) return; // Prevent fetching if backend is not ready
 
-      setIsLoading(true); // Show loading icon during fetch
       try {
         const response = await fetch(API_URL);
 
@@ -38,21 +37,22 @@ const Projects = () => {
       } catch (err) {
         console.error("Error fetching repositories:", err.message);
         setError(err.message);
-      } finally {
-        setIsLoading(false); // Hide loading icon after fetch
       }
     };
 
     fetchRepositories();
-  }, [backendReady, setIsLoading]); // Trigger fetch when backend is ready
+  }, [isBackendReady]); // Fetch repositories when backend is ready
 
-  // Show loading icon if backend is not ready or data is still loading
-  if (!backendReady || isLoading) {
-    return <LoadingIcon />; // Show loading icon
+  if (loading) {
+    return <LoadingScreen />; // Show the custom loading screen while backend is loading
+  }
+
+  if (!isBackendReady) {
+    return <p>Backend is not ready. Please try again later.</p>; // Show this message if backend is not ready
   }
 
   if (error) {
-    return <p className={styles.error}>Error: {error}</p>;
+    return <p className={styles.error}>Error: {error}</p>; // Handle any error while fetching data
   }
 
   return (
