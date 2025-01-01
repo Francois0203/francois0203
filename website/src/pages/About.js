@@ -30,6 +30,7 @@ import profileImage from "../extras/profile.png";
 const About = () => {
   const [randomAnimation, setRandomAnimation] = useState("");
   const { loading, isBackendReady } = useBackend(); // Get backend status and loading state
+  const [isFetchingData] = useState(false); // Track fetching data state
 
   // Randomly apply animations on page load
   useEffect(() => {
@@ -63,8 +64,8 @@ const About = () => {
     { name: "Spotify", url: "https://open.spotify.com/user/sfg2o0rk75xfki3r2074qjbh0?si=5d6f997e1de64081", logo: spotifyLogo },
   ];
 
-  if (loading) {
-    return <LoadingScreen />; // Show the custom loading screen while backend is loading
+  if (loading || isFetchingData) {
+    return <LoadingScreen />; // Show the custom loading screen while either backend or data is loading
   }
 
   if (!isBackendReady) {
