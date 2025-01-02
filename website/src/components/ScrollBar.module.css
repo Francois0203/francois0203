@@ -1,37 +1,63 @@
-/* Styling for the entire page to apply custom scrollbars globally */
 * {
-  scrollbar-width: thin; /* For Firefox */
-  scrollbar-color: var(--secondary-bg) var(--primary-bg); /* For Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: var(--secondary-main) var(--bg-secondary);
 }
 
-/* Webkit browsers like Chrome, Safari */
 ::-webkit-scrollbar {
-  width: 8px; /* Set the width of the scrollbar */
+  width: 12px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--primary-bg); /* Primary background color for the track */
-  border-radius: 10px; /* Optional: rounds the corners of the track */
+  background: var(--bg-secondary);
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: var(--secondary-bg); /* Secondary background color for the thumb */
-  border-radius: 10px; /* Rounds the thumb */
-  border: 3px solid var(--primary-bg); /* Optional: creates a border around the thumb */
+  background: linear-gradient(45deg, var(--secondary-light), var(--secondary-main), var(--secondary-dark));
+  border-radius: 10px;
+  border: 2px solid var(--secondary-dark);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+  background-size: 200% 200%;
+  animation: thumbAnimation 3s ease-in-out infinite;
+}
+
+@keyframes thumbAnimation {
+  0% {
+    background-position: 200% 200%;
+  }
+  50% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 200% 200%;
+  }
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #3a4853; /* Darker thumb on hover */
+  background: linear-gradient(45deg, var(--secondary-main), var(--secondary-light), var(--secondary-dark));
+  background-size: 200% 200%;
+  animation: thumbHoverAnimation 1s ease-in-out infinite;
 }
 
-/* Optional: style for when the scrollbar is focused */
+@keyframes thumbHoverAnimation {
+  0% {
+    background-position: 200% 200%;
+  }
+  50% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 200% 200%;
+  }
+}
+
 ::-webkit-scrollbar-thumb:focus {
-  background-color: #3a4853;
+  background-color: var(--secondary-dark);
+  box-shadow: 0 0 15px 3px var(--secondary-light);
 }
 
-/* The wrapper class for components that need scrolling */
 .scrollbarContainer {
-  overflow-y: auto; /* Enable vertical scrolling */
-  max-height: 100%; /* To ensure it takes full height of the container */
-  padding-right: 10px; /* Ensure the scrollbar does not overlap content */
+  overflow-y: auto;
+  max-height: 100%;
+  padding-right: 12px;
 }

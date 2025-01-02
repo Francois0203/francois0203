@@ -1,0 +1,42 @@
+/* Global Styles (responsive) */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Desktop layout */
+@media (min-width: 768px) {
+  .container {
+    flex-direction: row;
+  }
+}
+
+/* Larger devices (tablet and up) */
+@media (min-width: 1024px) {
+  .container {
+    width: 80%;
+    margin: auto;
+  }
+}
+
+/* For large screens (laptops and larger) */
+@media (min-width: 1440px) {
+  .container {
+    width: 70%;
+  }
+}
+
+/* Extra-large screens (TVs or wide monitors) */
+@media (min-width: 1920px) {
+  .container {
+    width: 60%;
+  }
+}

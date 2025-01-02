@@ -1,172 +1,43 @@
-/* General body styles */
-body {
-  font-family: var(--font-family);
-  background-color: var(--primary-bg);
-  color: var(--primary-text);
-  cursor: default; /* Default cursor for the page */
+/* Grid layout for project cards */
+.projectGrid {
+  display: grid;
+  grid-template-columns: 1fr; /* Only one column for each project */
+  gap: 1.5rem;
+  width: 100%;
 }
 
-/* Project Grid */
-.projectGrid {
+/* Project card styling */
+.projectCard {
+  background-color: var(--bg-secondary);
+  border-color: var(--secondary-main);
+  padding: 1.5rem;
+  border-radius: 15px;
+  box-shadow: var(--shadow-soft);
+  transition: transform var(--transition-speed), box-shadow var(--transition-speed), background-color var(--transition-speed);
   display: flex;
   flex-direction: column;
-  gap: 1.5em;
-}
-
-.projectCard {
-  background-color: var(--highlight-bg);
-  padding: 1.5em;
-  border-radius: 8px;
-  border: 2px solid var(--secondary-bg);
-  box-shadow: var(--box-shadow);
-  transition: transform var(--transition-speed), box-shadow var(--transition-speed), border-color var(--transition-speed);
-  text-align: center;
-  display: flex;
-  flex-direction: column; /* Make sure items are stacked vertically */
-  align-items: center; /* Center align all elements */
 }
 
 .projectCard:hover {
-  transform: scale(1.02);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-  border-color: var(--tersiary-text);
+  transform: scale(1.05);
+  box-shadow: var(--shadow-strong);
+  background-color: var(--bg-tersiary);
+  border-color: var(--secondary-main);
 }
 
-.projectCard h2 {
-  font-size: 1.5em;
-  color: var(--tersiary-text);
-  margin-bottom: 0.5em;
-}
-
-.projectCard p {
-  color: var(--secondary-text);
-  margin-bottom: 0.5em;
-  width: 100%; /* Ensure description spans the full width */
-}
-
-/* Languages Section */
+/* Language badge styling */
 .languages {
-  margin-top: 1.5em;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 2 columns for languages */
-  gap: 1em;
-  justify-items: center;
-  width: 100%; /* Full width for the languages section */
-}
-
-.languages h4 {
-  font-size: 1.2em;
-  color: var(--primary-text);
-  margin-bottom: 0.5em;
-  grid-column: span 2;
+  margin-bottom: 1.5rem;
 }
 
 .languageBadge {
-  background-color: var(--highlight-bg);
-  color: var(--primary-text);
-  padding: 0.5em 1em;
-  border-radius: 8px;
-  font-size: 0.9em;
-  box-shadow: var(--box-shadow);
-  transition: background-color var(--transition-speed), transform var(--transition-speed);
-  width: 100%;
-  text-align: center;
-}
-
-.languageBadge:hover {
-  background-color: var(--secondary-bg);
-  color: var(--primary-text);
-  transform: scale(1.05);
-}
-
-/* View Repository Link */
-a {
-  color: var(--primary-text);
-  text-decoration: none;
-  margin-top: 1em;
-}
-
-a:hover {
-  color: var(--tersiary-text);
-}
-
-/* Readme Button Styling */
-.readmeToggle {
-  background-color: var(--highlight-bg);
-  color: var(--primary-text);
-  padding: 0.5em 1em;
-  border: 2px solid var(--secondary-bg);
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 1em;
-  transition: background-color var(--transition-speed), border-color var(--transition-speed);
-}
-
-.readmeToggle:hover {
-  background-color: var(--secondary-bg);
-  border-color: var(--tersiary-text);
-}
-
-/* Readme Content */
-.readmeContent {
-  margin-top: 1.5em;
-  padding: 1.5em;
-  background-color: var(--highlight-bg);
-  border-radius: 8px;
-  box-shadow: var(--box-shadow);
-  color: var(--secondary-text);
-  overflow: auto;
-}
-
-.readmeContent h3 {
-  font-size: 1.8em;
-  color: var(--tersiary-text);
-  margin-top: 2em;
-}
-
-.readmeContent p {
-  color: var(--secondary-text);
-  line-height: 1.8;
-}
-
-/* Cursor Behavior */
-a:hover, .readmeToggle:hover, .languageBadge:hover {
-  cursor: pointer;
-}
-
-.projectCard, .languages, .readmeToggle {
-  cursor: default; /* Default cursor for most elements */
-}
-
-.projectCard h2, .projectCard p, .languages h4 {
-  cursor: text; /* Text cursor for text */
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .container {
-    padding: 1em;
-  }
-
-  .projectCard {
-    padding: 1em;
-  }
-
-  .title {
-    font-size: 2em;
-  }
-
-  .languages {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 480px) {
-  .title {
-    font-size: 1.8em;
-  }
-
-  .projectCard h2 {
-    font-size: 1.2em;
-  }
+  display: inline-block;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  padding: 0.3rem 0.6rem;
+  border-radius: 5px;
+  border-color: var(--secondary-main);
+  margin: 0.2rem;
+  font-size: 0.9rem;
+  font-weight: 600;
 }
