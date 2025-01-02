@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import styles from "./About.module.css"; 
-import theme from "../theme.css"; 
-import useBackend from "../utils/useBackend"; 
-import LoadingScreen from "../components/LoadingScreen"; 
+import styles from "./About.module.css";
+import useBackend from "../utils/useBackend";
+import LoadingScreen from "../components/LoadingScreen";
 
 // Import logos and profile image
 import pythonLogo from "../logos/python.png";
@@ -29,10 +28,9 @@ import profileImage from "../extras/profile.png";
 
 const About = () => {
   const [randomAnimation, setRandomAnimation] = useState("");
-  const { loading, isBackendReady } = useBackend(); // Get backend status and loading state
-  const [isFetchingData] = useState(false); // Track fetching data state
+  const { loading, isBackendReady } = useBackend();
+  const [isFetchingData] = useState(false);
 
-  // Randomly apply animations on page load
   useEffect(() => {
     const animations = ["fadeIn", "bounceIn", "slideInFromLeft"];
     const randomIndex = Math.floor(Math.random() * animations.length);
@@ -65,40 +63,40 @@ const About = () => {
   ];
 
   if (loading || isFetchingData) {
-    return <LoadingScreen />; 
+    return <LoadingScreen />;
   }
 
   if (!isBackendReady) {
-    return <p>Backend is not ready. Please try again later.</p>; // Show this message if backend is not ready
+    return <p>Backend is not ready. Please try again later.</p>;
   }
 
   return (
-    <div className={`${theme.container} theme-container`}>
-      <div className={`${styles.profileSection} ${styles[randomAnimation]} theme-profile`}>
+    <div className={styles.container}>
+      <div className={`${styles.profileSection} ${styles[randomAnimation]}`}>
         <img src={profileImage} alt="Profile" className={styles.profileImage} />
-        <h1 className={`${theme.title} theme-title`}>Francois Meiring</h1>
-        <p className={`${theme.h2} theme-subtitle`}>MSc Computer Science | Full Stack Developer</p>
+        <h1>Francois Meiring</h1>
+        <h2>MSc Computer Science | Full Stack Developer</h2>
       </div>
 
-      <div className={`${styles.section} ${styles[randomAnimation]} theme-section`}>
-        <h2 className={`${theme.h1} theme-section-title`}>Quick Info</h2>
+      <div className={`${styles.section} ${styles[randomAnimation]}`}>
+        <h2 className={styles.sectionTitle}>Quick Info</h2>
         <p>💼 Starting at Aquatico as a Full Stack Developer in 2025</p>
         <p>📍 Based in Pretoria, South Africa</p>
         <p>👨‍🎓 22 years old</p>
       </div>
 
-      <div className={`${styles.section} ${styles[randomAnimation]} theme-section`}>
-        <h2 className={`${theme.h1} theme-section-title`}>Education</h2>
+      <div className={`${styles.section} ${styles[randomAnimation]}`}>
+        <h2 className={styles.sectionTitle}>Education</h2>
         <p>BSc in Computer Science and Statistics, NWU Potchefstroom</p>
         <p>Honours BSc in Computer Science, NWU Potchefstroom</p>
         <p>Currently pursuing MSc in Computer Science</p>
       </div>
 
-      <div className={`${styles.section} ${styles[randomAnimation]} theme-section`}>
-        <h2 className={`${theme.h1} theme-section-title`}>Skills</h2>
+      <div className={`${styles.section} ${styles[randomAnimation]}`}>
+        <h2 className={styles.sectionTitle}>Skills</h2>
         <div className={styles.skillsGrid}>
           {skills.map((skill, index) => (
-            <div key={index} className={`${styles.skillItem} theme-skill-item`}>
+            <div key={index} className={styles.skillItem}>
               <img src={skill.logo} alt={skill.name} className={styles.skillLogo} />
               <span>{skill.name}</span>
               <div className={styles.skillBar}>
@@ -115,8 +113,8 @@ const About = () => {
         </div>
       </div>
 
-      <div className={`${styles.section} ${styles[randomAnimation]} theme-section`}>
-        <h2 className={`${theme.h1} theme-section-title`}>Hobbies</h2>
+      <div className={`${styles.section} ${styles[randomAnimation]}`}>
+        <h2 className={styles.sectionTitle}>Hobbies</h2>
         <div className={styles.hobbiesGrid}>
           <div>🎸 Playing guitar</div>
           <div>🏋️ Gym</div>
@@ -129,19 +127,19 @@ const About = () => {
         </div>
       </div>
 
-      <div className={`${styles.section} ${styles[randomAnimation]} theme-section`}>
-        <h2 className={`${theme.h1} theme-section-title`}>Contact</h2>
+      <div className={`${styles.section} ${styles[randomAnimation]}`}>
+        <h2 className={styles.sectionTitle}>Contact</h2>
         <p>📱 Cellphone: 065 131 0546</p>
         <p>
           📧 Email:{" "}
-          <a href="mailto:francoismeiring0203@gmail.com" className={`${styles.link} theme-link`}>
+          <a href="mailto:francoismeiring0203@gmail.com" className={styles.link}>
             francoismeiring0203@gmail.com
           </a>
         </p>
       </div>
 
-      <div className={`${styles.section} ${styles[randomAnimation]} theme-section`}>
-        <h2 className={`${theme.h1} theme-section-title`}>Socials</h2>
+      <div className={`${styles.section} ${styles[randomAnimation]}`}>
+        <h2 className={styles.sectionTitle}>Socials</h2>
         <div className={styles.socialsRow}>
           {socials.map((social, index) => (
             <a
@@ -149,9 +147,9 @@ const About = () => {
               href={social.url}
               target="_blank"
               rel="noopener noreferrer"
-              className={`${styles.socialLink} theme-social-link`}
+              className={styles.socialLink}
             >
-              <img src={social.logo} alt={social.name} className={`${styles.socialLogo} theme-social-logo`} />
+              <img src={social.logo} alt={social.name} className={styles.socialLogo} />
               {social.name}
             </a>
           ))}

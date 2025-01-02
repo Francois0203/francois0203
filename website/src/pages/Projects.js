@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import ScrollBar from "../components/ScrollBar";
 import useBackend from "../utils/useBackend";
 import LoadingScreen from "../components/LoadingScreen";
-
-import styles from "./Projects.module.css"; // Import module styles
-import "../theme.css"; // Ensure global styles are being applied
+import styles from "./Projects.module.css"; 
+import "../theme.css"; 
 
 const API_URL =
   process.env.NODE_ENV === "production"
@@ -26,13 +25,13 @@ const Projects = () => {
     content = content.replace(/## Table of Contents[\s\S]*?##/g, "");
     content = content.replace(/(#{1,6})\s*(.*?)(\n|$)/g, (match, hashes, title) => {
       const level = hashes.length;
-      return `<h${level}>${title.trim()}</h${level}>`; // Use regular heading tags
+      return `<h${level}>${title.trim()}</h${level}>`;
     });
     content = content.replace(/^\s*[-*+]\s+(.*?)(\n|$)/gm, (match, listItem) => {
-      return `<p>${listItem.trim()}</p>`; // Ensure list items are paragraphs
+      return `<p>${listItem.trim()}</p>`;
     });
     content = content.replace(/(?:^|\n)([^\n]+)(?=\n|$)/g, (match, paragraph) => {
-      return `<p>${paragraph.trim()}</p>`; // Paragraphs are just normal text
+      return `<p>${paragraph.trim()}</p>`;
     });
     content = content.replace(/\*\*(.*?)\*\*/g, "$1");
     content = content.replace(/\*(.*?)\*/g, "$1");
@@ -78,49 +77,52 @@ const Projects = () => {
   return (
     <div className="container">
       <ScrollBar>
-        <div className={`${styles.projectGrid} projectGrid`}>
+        <div className={styles.projectGrid}>
           {repos.length === 0 ? (
-            <p>No repositories found.</p>  
+            <p>No repositories found.</p>
           ) : (
             repos.map((repo) => (
-              <div key={repo.id} className={`${styles.projectCard} card`}>
-                <h2>{repo.name}</h2>  {/* Heading will use secondary color */}
-                <p>{repo.description || "No description provided."}</p>  {/* Normal description text */}
+              <div key={repo.id} className={styles.projectCard}>
+                {/* Repository Information */}
+                <div className={styles.projectInfo}>
+                  <h2 className={styles.projectTitle}>{repo.name}</h2>
+                  <p className={styles.projectDescription}>
+                    {repo.description || "No description provided."}
+                  </p>
 
-                {repo.languages && (
-                  <div className={styles.languages}>
-                    <h4>Languages:</h4>
-                    {Object.keys(repo.languages).map((language, index) => (
-                      <span key={index} className={`${styles.languageBadge} languageBadge`}>
-                        {language}
-                      </span>
-                    ))}
-                  </div>
-                )}
+                  {repo.languages && (
+                    <div className={styles.languages}>
+                      <h4>Languages:</h4>
+                      {Object.keys(repo.languages).map((language, index) => (
+                        <span key={index} className={styles.languageBadge}>
+                          {language}
+                        </span>
+                      ))}
+                    </div>
+                  )}
 
-                <a
-                  href={repo.html_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="link"
-                >
-                  View Repository
-                </a>
+                  <a
+                    href={repo.html_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="link"
+                  >
+                    View Repository
+                  </a>
 
-                <button
-                  className="button"
-                  onClick={() => toggleReadme(repo.id)}
-                >
-                  {expandedRepo === repo.id ? "Hide" : "Show More"}
-                </button>
+                  <button className="button" onClick={() => toggleReadme(repo.id)}>
+                    {expandedRepo === repo.id ? "Hide" : "Show More"}
+                  </button>
 
-                {expandedRepo === repo.id && repo.readme && (
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: formatReadmeContent(repo.readme),
-                    }}
-                  ></div>  
-                )}
+                  {expandedRepo === repo.id && repo.readme && (
+                    <div
+                      className={styles.readmeContent}
+                      dangerouslySetInnerHTML={{
+                        __html: formatReadmeContent(repo.readme),
+                      }}
+                    />
+                  )}
+                </div>
               </div>
             ))
           )}
