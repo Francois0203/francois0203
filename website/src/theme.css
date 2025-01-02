@@ -1,189 +1,203 @@
 :root {
-  /* Primary and secondary colors */
-  --primary-bg: #1e1e1e; /* Darker gray for primary background */
-  --secondary-bg: #00ced1; /* Turquoise for secondary elements */
+  /* Neutral colors for dark mode */
+  --bg-primary: #121212; /* Deep matte black */
+  --bg-secondary: gray; /* Light gray for contrast */
+  --bg-tertiary: #2d2d2d; /* Medium gray for sections */
 
-  /* Highlights and accents */
-  --highlight-bg: #333333; /* Dark gray for highlighted elements */
-  --accent-color: #505050; /* Slightly darker accent */
-  --accent-hover: #3c3c3c; /* Darker accent on hover */
+  /* Dynamic secondary gradient colors */
+  --secondary-light: #80e8e1;
+  --secondary-main: #40d8d1;
+  --secondary-dark: #00c8c1;
 
-  /* Neutral palette */
-  --neutral-light: #2c2c2c; /* Slightly lighter neutral */
-  --neutral-medium: #3a3a3a; /* Medium neutral */
-  --neutral-dark: #282828; /* Dark neutral */
+  /* Vibrant accent color with glow */
+  --vibrant-accent: #40d8d1;
+  --vibrant-glow: rgba(64, 216, 209, 0.5);
 
-  /* Text colors */
-  --primary-text: #e0e0e0; /* Light gray for primary text */
-  --secondary-text: #b0b0b0; /* Gray for secondary text */
-  --tersiary-text: #00ced1; /* Turquoise for tertiary text */
-  --muted-text: #8a8a8a; /* Muted gray for less prominent text */
+  /* Dynamic text colors */
+  --text-primary: #e0e0e0;
+  --text-secondary: #40d8d1;
 
-  /* Hover and effects */
-  --hover-effect: rgba(0, 128, 128, 0.2); /* Turquoise hover effect */
+  /* Hover and focus effects */
+  --hover-effect: rgba(64, 216, 209, 0.2);
 
   /* Borders */
-  --border-light: #404040; /* Light border for contrast */
-  --border-dark: #2a2a2a; /* Darker border for subtle separation */
+  --border-color: var(--secondary-main);
 
   /* Transitions */
-  --transition-speed: 0.3s; /* Consistent transition speed */
+  --transition-speed: 0.3s ease-in-out;
 
   /* Shadows */
-  --box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Stronger shadow for darker theme */
-  --soft-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); /* Softer shadow for lighter elements */
+  --shadow-strong: 0 4px 15px rgba(0, 0, 0, 0.6);
+  --shadow-soft: 0 2px 10px rgba(0, 0, 0, 0.4);
 
   /* Fonts */
-  --font-family: 'Poppins', sans-serif; /* Default font */
-  --heading-font-weight: 700; /* Bold headings */
-  --body-font-weight: 400; /* Normal body font weight */
+  --font-family: 'Poppins', sans-serif;
+  --font-weight-heading: 500;
+  --font-weight-body: 200;
 }
 
+/* Reset margins and padding */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* General Body Styling */
 body {
   font-family: var(--font-family);
-  background-color: var(--primary-bg);
-  color: var(--primary-text);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   line-height: 1.6;
+  padding: 20px; /* Added padding to the body for spacing */
 }
 
+/* Title Styling (For headings like Projects) */
+.title {
+  font-family: var(--font-family);
+  font-weight: 600; /* Slightly heavier than regular headings */
+  font-size: 3rem; /* Adjust the size for emphasis */
+  color: var(--text-secondary);
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Adds a subtle shadow to make it pop */
+  margin-bottom: 1rem;
+}
+
+/* Headings */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-family);
-  font-weight: var(--heading-font-weight);
-  color: var(--primary-text);
-  margin: 1rem 0;
+  font-weight: var(--font-weight-heading);
+  color: var(--text-primary);
+  margin: 1rem 0; 
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 h1 {
   font-size: 2.5rem;
+  font-weight: bold;
 }
-
 h2 {
   font-size: 2rem;
 }
-
 h3 {
   font-size: 1.75rem;
 }
-
 h4 {
   font-size: 1.5rem;
 }
-
 h5 {
   font-size: 1.25rem;
 }
-
 h6 {
   font-size: 1rem;
 }
 
+/* Paragraph Styling */
 p {
-  margin: 0.5rem 0;
-  color: var(--secondary-text);
+  margin: 0.5rem 0; /* Adds margin between paragraphs */
+  color: var(--text-secondary);
+  font-weight: var(--font-weight-body);
 }
 
+/* Anchor Tags */
 a {
-  color: var(--tersiary-text);
+  color: var(--vibrant-accent);
   text-decoration: none;
-  transition: color var(--transition-speed);
+  transition: color var(--transition-speed), transform var(--transition-speed);
+  cursor: pointer;
 }
 
 a:hover {
-  color: var(--secondary-bg);
+  color: var(--text-secondary);
+  transform: scale(1.05);
 }
 
+a:focus {
+  outline: none;
+  box-shadow: 0 0 5px var(--vibrant-glow);
+}
+
+/* Italic and Emphasized Text */
+.i, .em {
+  font-style: italic;
+  color: var(--secondary-light);
+}
+
+/* Bold and Strong Text */
+.b, .strong {
+  font-weight: bold;
+  color: var(--secondary-main);
+}
+
+/* Button Styling */
 button {
-  font-family: var(--font-family);
-  background-color: var(--secondary-bg);
-  color: var(--primary-text);
-  border: none;
-  padding: 0.5rem 1rem;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  border-color: var(--secondary-main);
+  padding: 12px 24px; 
+  border-radius: 50px; 
+  font-size: 1rem; 
+  font-weight: 600;
   cursor: pointer;
-  border-radius: 5px;
-  transition: background-color var(--transition-speed);
-  box-shadow: var(--box-shadow);
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: var(--shadow-soft);
+  margin: 12px 0; 
+  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 button:hover {
-  background-color: var(--accent-hover);
+  background-color: var(--secondary-dark); /* Darker shade on hover */
+  transform: translateY(-3px); /* Subtle lift effect */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow */
 }
 
-input, textarea {
-  font-family: var(--font-family);
-  background-color: var(--highlight-bg);
-  color: var(--primary-text);
-  border: 1px solid var(--accent-color);
-  padding: 0.5rem;
-  border-radius: 5px;
-  transition: border-color var(--transition-speed);
-}
-
-input:focus, textarea:focus {
-  border-color: var(--secondary-bg);
+button:focus {
   outline: none;
+  box-shadow: 0 0 8px 3px var(--secondary-main); /* Focus glow effect */
 }
 
+button:active {
+  transform: translateY(1px); /* Slight press effect */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Slightly lighter shadow on click */
+}
+
+/* Containers */
+.container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 2.5rem; /* Increased padding for a more spacious layout */
+  background-color: var(--bg-primary);
+  border-radius: 16px; 
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); 
+  border: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.container:hover {
+  transform: translateY(-5px); /* Subtle hover effect */
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow on hover */
+}
+
+/* Card styling */
 .card {
-  background-color: var(--highlight-bg);
-  color: var(--primary-text);
-  padding: 1rem;
-  border-radius: 10px;
-  box-shadow: var(--box-shadow);
-  transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border-color: var(--secondary-dark);
+  padding: 1.5rem;
+  border-radius: 12px; 
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  cursor: pointer;
+  margin-bottom: 20px;
 }
 
 .card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
-}
-
-.container {
-  width: 90%;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.flex {
-  display: flex;
-  gap: 1rem;
-}
-
-.grid {
-  display: grid;
-  gap: 1rem;
-}
-
-.hidden {
-  display: none;
-}
-
-.visible {
-  display: block;
-}
-
-/* Utility classes with added neutral tones */
-.neutral-bg-light {
-  background-color: var(--neutral-light);
-}
-
-.neutral-bg-mid {
-  background-color: var(--neutral-mid);
-}
-
-.neutral-bg-dark {
-  background-color: var(--neutral-dark);
-}
-
-.neutral-border {
-  border: 1px solid var(--neutral-mid);
-}
-
-.neutral-text {
-  color: var(--neutral-dark);
+  background-color: var(--bg-secondary);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  transform: scale(1.03); /* Slight zoom effect */
 }
