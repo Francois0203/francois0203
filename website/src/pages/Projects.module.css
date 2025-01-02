@@ -1,31 +1,52 @@
 /* Grid layout for project cards */
 .projectGrid {
   display: grid;
-  grid-template-columns: 1fr; /* Only one column for each project */
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 2rem;
   width: 100%;
+  justify-items: center;
+  padding: 2rem;
 }
 
 /* Project card styling */
 .projectCard {
   background-color: var(--bg-secondary);
-  border-color: var(--secondary-main);
-  padding: 1.5rem;
-  border-radius: 15px;
+  border: 2px solid var(--secondary-main);
+  padding: 2rem;
+  border-radius: 16px;
   box-shadow: var(--shadow-soft);
-  transition: transform var(--transition-speed), box-shadow var(--transition-speed), background-color var(--transition-speed);
+  transition: transform var(--transition-speed), box-shadow var(--transition-speed), background-color var(--transition-speed), border-color var(--transition-speed);
   display: flex;
   flex-direction: column;
+  width: 100%;
+  max-width: 800px;
+  box-sizing: border-box;
 }
 
 .projectCard:hover {
-  transform: scale(1.05);
-  box-shadow: var(--shadow-strong);
-  background-color: var(--bg-tersiary);
+  transform: scale(1.015);
+  box-shadow: var(--shadow-soft);
   border-color: var(--secondary-main);
+  box-shadow: 0 0 20px var(--secondary-main);
 }
 
-/* Language badge styling */
+/* Styling for project title */
+.projectTitle {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+/* Styling for project description */
+.projectDescription {
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+/* Styling for language badges */
 .languages {
   margin-bottom: 1.5rem;
 }
@@ -36,8 +57,38 @@
   color: var(--text-primary);
   padding: 0.3rem 0.6rem;
   border-radius: 5px;
-  border-color: var(--secondary-main);
+  border: 2px solid var(--secondary-main);
   margin: 0.2rem;
   font-size: 0.9rem;
   font-weight: 600;
+}
+
+/* Styling for readme content */
+.readmeContent {
+  color: var(--text-primary);  
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.readmeContent h1,
+.readmeContent h2,
+.readmeContent h3,
+.readmeContent h4,
+.readmeContent h5,
+.readmeContent h6 {
+  font-family: var(--font-family);
+  color: var(--text-secondary); 
+}
+
+.readmeContent p {
+  color: var(--text-primary);  
+  margin: 1rem 0;
+}
+
+.readmeContent blockquote {
+  background-color: var(--bg-tertiary);
+  padding: 1rem;
+  border-left: 4px solid var(--secondary-main);
+  margin: 1.5rem 0;
+  color: var(--text-primary);
 }

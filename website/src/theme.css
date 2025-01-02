@@ -1,7 +1,7 @@
 :root {
   /* Neutral colors for dark mode */
   --bg-primary: #121212; /* Deep matte black */
-  --bg-secondary: gray; /* Light gray for contrast */
+  --bg-secondary: #444444; /* Light gray for contrast */
   --bg-tertiary: #2d2d2d; /* Medium gray for sections */
 
   /* Dynamic secondary gradient colors */
@@ -167,8 +167,10 @@ button:active {
 .container {
   display: flex;
   align-items: center;
+  justify-content: center;
   width: 100%;
   max-width: 1100px;
+  min-height: 100vh;
   margin: 0 auto;
   padding: 2rem 2.5rem; /* Increased padding for a more spacious layout */
   background-color: var(--bg-primary);
@@ -181,23 +183,4 @@ button:active {
 .container:hover {
   transform: translateY(-5px); /* Subtle hover effect */
   box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow on hover */
-}
-
-/* Card styling */
-.card {
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  border-color: var(--secondary-dark);
-  padding: 1.5rem;
-  border-radius: 12px; 
-  box-shadow: var(--shadow-soft);
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-  cursor: pointer;
-  margin-bottom: 20px;
-}
-
-.card:hover {
-  background-color: var(--bg-secondary);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-  transform: scale(1.03); /* Slight zoom effect */
 }

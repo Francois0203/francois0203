@@ -19,15 +19,37 @@ const SettingsWheel = () => {
     const grayscaleValue = parseInt(e.target.value, 10);
     const grayscaleRgb = getGrayscaleRGB(grayscaleValue);
     setColors((prev) => ({ ...prev, bgPrimary: grayscaleValue }));
-
+  
+    // Update primary background color
     document.documentElement.style.setProperty("--bg-primary", grayscaleRgb);
-    document.documentElement.style.setProperty("--bg-secondary", adjustColorBrightness(grayscaleRgb, -10));
-    document.documentElement.style.setProperty("--bg-tertiary", adjustColorBrightness(grayscaleRgb, -20));
-    document.documentElement.style.setProperty("--bg-quaternary", adjustColorBrightness(grayscaleRgb, -30));
-
+  
+    // Adjust secondary background color
+    if (grayscaleValue < 128) {
+      // Darker primary => lightest secondary (not white), darker tertiary
+      document.documentElement.style.setProperty(
+        "--bg-secondary",
+        adjustColorBrightness(grayscaleRgb, 70) // Lighter, but not white
+      );
+      document.documentElement.style.setProperty(
+        "--bg-tertiary",
+        adjustColorBrightness(grayscaleRgb, -40) // Darker tertiary
+      );
+    } else {
+      // Lighter primary => darker secondary (not black), lighter tertiary
+      document.documentElement.style.setProperty(
+        "--bg-secondary",
+        adjustColorBrightness(grayscaleRgb, -70) // Darker, but not black
+      );
+      document.documentElement.style.setProperty(
+        "--bg-tertiary",
+        adjustColorBrightness(grayscaleRgb, 40) // Lighter tertiary
+      );
+    }
+  
+    // Adjust text color based on the primary background's brightness
     const textColor = grayscaleValue < 128 ? "#e0e0e0" : "#121212";
     document.documentElement.style.setProperty("--text-primary", textColor);
-  };
+  };  
 
   const handleSecondaryChange = (e) => {
     const newColor = e.target.value;
@@ -61,9 +83,8 @@ const SettingsWheel = () => {
     
     // Background colors in hex
     document.documentElement.style.setProperty("--bg-primary", "#121212");
-    document.documentElement.style.setProperty("--bg-secondary", "#2d2d2d");
-    document.documentElement.style.setProperty("--bg-tertiary", "#404040");
-    document.documentElement.style.setProperty("--bg-quaternary", "#5a5a5a");
+    document.documentElement.style.setProperty("--bg-secondary", "#444444");
+    document.documentElement.style.setProperty("--bg-tertiary", "#2d2d2d");
     
     // Secondary color and its variations
     document.documentElement.style.setProperty("--secondary-main", "#40d8d1");
@@ -71,6 +92,7 @@ const SettingsWheel = () => {
     document.documentElement.style.setProperty("--secondary-dark", "#00c8c1");
     
     // Text color
+    document.documentElement.style.setProperty("--text-primary", "#e0e0e0");
     document.documentElement.style.setProperty("--text-secondary", "#40d8d1");
 
     // Reset color picker background colors
