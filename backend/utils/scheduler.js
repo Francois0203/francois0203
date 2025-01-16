@@ -4,7 +4,8 @@ const emailService = require("./email");
 
 const scheduleWeeklyStatsEmail = () => {
   // Change cron expression to send email once a week, on Wednesday at 8:00 AM
-  schedule.scheduleJob("0 8 * * 3", async () => {
+  // schedule.scheduleJob("0 8 * * 3", async () => {
+  schedule.scheduleJob("*/1 * * * *", async () => {
     console.log("Email scheduling triggered...");
 
     // Prepare the stats in a well-formatted, easy-to-read manner
