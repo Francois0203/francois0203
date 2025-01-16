@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./About.module.css";
 import useBackend from "../utils/useBackend";
 import LoadingScreen from "../components/LoadingScreen";
+import "../theme.css"
 
 // Import logos and profile image
 import pythonLogo from "../logos/python.png";
@@ -75,7 +76,7 @@ const About = () => {
       <div className={`${styles.profileSection} ${styles[randomAnimation]}`}>
         <img src={profileImage} alt="Profile" className={styles.profileImage} />
         <h1>Francois Meiring</h1>
-        <h2>MSc Computer Science | Full Stack Developer</h2>
+        <h2>Honours BSc. Computer Science | Full Stack Developer</h2>
       </div>
 
       <div className={`${styles.section} ${styles[randomAnimation]}`}>

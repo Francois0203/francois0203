@@ -8,7 +8,6 @@ const SettingsWheel = () => {
   const [colors, setColors] = useState({
     bgPrimary: 18,
     secondaryMain: "#40d8d1",
-    textSecondary: "#c0c0c0", // Re-added textSecondary color
   });
 
   const getGrayscaleRGB = (value) => {
@@ -19,89 +18,67 @@ const SettingsWheel = () => {
     const grayscaleValue = parseInt(e.target.value, 10);
     const grayscaleRgb = getGrayscaleRGB(grayscaleValue);
     setColors((prev) => ({ ...prev, bgPrimary: grayscaleValue }));
-  
-    // Update primary background color
+
     document.documentElement.style.setProperty("--bg-primary", grayscaleRgb);
-  
-    // Adjust secondary background color
+
     if (grayscaleValue < 128) {
-      // Darker primary => lightest secondary (not white), darker tertiary
       document.documentElement.style.setProperty(
         "--bg-secondary",
-        adjustColorBrightness(grayscaleRgb, 70) // Lighter, but not white
+        adjustColorBrightness(grayscaleRgb, 70)
       );
       document.documentElement.style.setProperty(
         "--bg-tertiary",
-        adjustColorBrightness(grayscaleRgb, -40) // Darker tertiary
+        adjustColorBrightness(grayscaleRgb, -40)
       );
     } else {
-      // Lighter primary => darker secondary (not black), lighter tertiary
       document.documentElement.style.setProperty(
         "--bg-secondary",
-        adjustColorBrightness(grayscaleRgb, -70) // Darker, but not black
+        adjustColorBrightness(grayscaleRgb, -70)
       );
       document.documentElement.style.setProperty(
         "--bg-tertiary",
-        adjustColorBrightness(grayscaleRgb, 40) // Lighter tertiary
+        adjustColorBrightness(grayscaleRgb, 40)
       );
     }
-  
-    // Adjust text color based on the primary background's brightness
+
     const textColor = grayscaleValue < 128 ? "#e0e0e0" : "#121212";
     document.documentElement.style.setProperty("--text-primary", textColor);
-  };  
+  };
 
   const handleSecondaryChange = (e) => {
     const newColor = e.target.value;
     setColors((prev) => ({ ...prev, secondaryMain: newColor }));
-
+  
     document.documentElement.style.setProperty("--secondary-main", newColor);
     document.documentElement.style.setProperty("--secondary-light", adjustColorBrightness(newColor, 40));
     document.documentElement.style.setProperty("--secondary-dark", adjustColorBrightness(newColor, -40));
     document.documentElement.style.setProperty("--vibrant-accent", newColor);
     document.documentElement.style.setProperty("--vibrant-glow", hexToRgba(newColor, 0.5));
     document.documentElement.style.setProperty("--hover-effect", adjustColorBrightness(newColor, -20));
-
-    // Update color picker's background dynamically
-    const colorPickerElement = document.getElementById("secondaryMain");
-    colorPickerElement.style.backgroundColor = newColor;
-  };
-
-  const handleTextColorChange = (e) => {
-    const newColor = e.target.value;
-    setColors((prev) => ({ ...prev, textSecondary: newColor }));
-
     document.documentElement.style.setProperty("--text-secondary", newColor);
-
-    // Update color picker's background dynamically
-    const textColorPickerElement = document.getElementById("textSecondary");
-    textColorPickerElement.style.backgroundColor = newColor;
-  };
+  };  
 
   const resetTheme = () => {
-    setColors({ bgPrimary: "#121212", secondaryMain: "#40d8d1", textSecondary: "#c0c0c0" });
-    
-    // Background colors in hex
+    setColors({ bgPrimary: 18, secondaryMain: "#40d8d1" });
+
     document.documentElement.style.setProperty("--bg-primary", "#121212");
     document.documentElement.style.setProperty("--bg-secondary", "#444444");
     document.documentElement.style.setProperty("--bg-tertiary", "#2d2d2d");
-    
-    // Secondary color and its variations
     document.documentElement.style.setProperty("--secondary-main", "#40d8d1");
     document.documentElement.style.setProperty("--secondary-light", "#80e8e1");
     document.documentElement.style.setProperty("--secondary-dark", "#00c8c1");
-    
-    // Text color
+    document.documentElement.style.setProperty("--vibrant-accent", "#40d8d1");
+    document.documentElement.style.setProperty(
+      "--vibrant-glow",
+      hexToRgba("#40d8d1", 0.5)
+    );
+    document.documentElement.style.setProperty("--hover-effect", "#00c8c1");
     document.documentElement.style.setProperty("--text-primary", "#e0e0e0");
     document.documentElement.style.setProperty("--text-secondary", "#40d8d1");
-
-    // Reset color picker background colors
-    document.getElementById("secondaryMain").style.backgroundColor = "#40d8d1";
-    document.getElementById("textSecondary").style.backgroundColor = "#c0c0c0";
   };
 
   const adjustColorBrightness = (rgb, amount) => {
-    const rgbValues = rgb.match(/\d+/g).map(Number); // Get the RGB values as an array
+    const rgbValues = rgb.match(/\d+/g).map(Number);
     const r = Math.min(255, Math.max(0, rgbValues[0] + amount));
     const g = Math.min(255, Math.max(0, rgbValues[1] + amount));
     const b = Math.min(255, Math.max(0, rgbValues[2] + amount));
@@ -117,7 +94,11 @@ const SettingsWheel = () => {
   };
 
   return (
-    <div className={styles.settings} onMouseEnter={() => setSettingsOpen(true)} onMouseLeave={() => setSettingsOpen(false)}>
+    <div
+      className={styles.settings}
+      onMouseEnter={() => setSettingsOpen(true)}
+      onMouseLeave={() => setSettingsOpen(false)}
+    >
       <div className={styles.wheel}>⚙️</div>
       <div className={`${styles.dropdown} ${!settingsOpen ? styles.hidden : ""}`}>
         <h3 className={theme.h1}>Theme Customisation</h3>
@@ -146,19 +127,6 @@ const SettingsWheel = () => {
             id="secondaryMain"
             value={colors.secondaryMain}
             onChange={handleSecondaryChange}
-            className={styles.colorPicker}
-          />
-        </div>
-
-        <div className={styles.dropdownItem}>
-          <label htmlFor="textSecondary" className={theme.h2}>
-            Secondary Text Colour
-          </label>
-          <input
-            type="color"
-            id="textSecondary"
-            value={colors.textSecondary}
-            onChange={handleTextColorChange}
             className={styles.colorPicker}
           />
         </div>

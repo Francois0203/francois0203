@@ -2,6 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const projectsRouter = require("./routes/projects");
+const statsMiddleware = require("./middleware/statsTracker");
+const { scheduleWeeklyStatsEmail } = require("./utils/scheduler");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,8 +14,14 @@ app.use(cors());
 // Parse incoming JSON requests
 app.use(express.json());
 
+// Middleware to track stats
+app.use(statsMiddleware);
+
 // Use the projects router for the /api path
 app.use("/api", projectsRouter);
+
+// Stats endpoint
+app.use("/stats", require("./routes/stats"));
 
 // Simple health check endpoint
 app.get("/health", (req, res) => {
@@ -24,6 +32,9 @@ app.get("/health", (req, res) => {
 app.get("/", (req, res) => {
   res.send("Welcome to the backend! API is live at /api");
 });
+
+// Schedule weekly email for stats
+scheduleWeeklyStatsEmail();
 
 // Start the server
 app.listen(PORT, () => {

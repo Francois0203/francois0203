@@ -75,7 +75,6 @@ const Projects = () => {
   }
 
   return (
-    <div className="container">
       <ScrollBar>
         <div className={styles.projectGrid}>
           {repos.length === 0 ? (
@@ -83,7 +82,6 @@ const Projects = () => {
           ) : (
             repos.map((repo) => (
               <div key={repo.id} className={styles.projectCard}>
-                {/* Repository Information */}
                 <div className={styles.projectInfo}>
                   <h2 className={styles.projectTitle}>{repo.name}</h2>
                   <p className={styles.projectDescription}>
@@ -128,7 +126,6 @@ const Projects = () => {
           )}
         </div>
       </ScrollBar>
-    </div>
   );
 };
 
