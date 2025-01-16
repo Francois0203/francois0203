@@ -1,11 +1,25 @@
 /* Grid layout for project cards */
 .projectGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  grid-template-columns: 1fr; /* Single column by default */
   gap: 2rem;
   width: 100%;
   justify-items: center;
-  padding: 2rem;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+/* Responsive adjustments for larger screens */
+@media (min-width: 768px) {
+  .projectGrid {
+    grid-template-columns: 1fr; /* Still one per row */
+  }
+}
+
+@media (min-width: 1024px) {
+  .projectGrid {
+    grid-template-columns: 1fr; /* Stays one per row on wider screens */
+  }
 }
 
 /* Project card styling */
@@ -19,20 +33,19 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 800px;
+  max-width: 100%; /* Ensures the card stretches to fit the grid column */
   box-sizing: border-box;
 }
 
 .projectCard:hover {
   transform: scale(1.015);
-  box-shadow: var(--shadow-soft);
-  border-color: var(--secondary-main);
   box-shadow: 0 0 20px var(--secondary-main);
+  border-color: var(--secondary-main);
 }
 
 /* Styling for project title */
 .projectTitle {
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
   font-weight: 600;
   color: var(--text-secondary);
   margin-bottom: 1rem;
@@ -41,7 +54,7 @@
 /* Styling for project description */
 .projectDescription {
   color: var(--text-primary);
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 2vw, 1.1rem);
   margin-bottom: 1.5rem;
   line-height: 1.6;
 }
@@ -59,14 +72,14 @@
   border-radius: 5px;
   border: 2px solid var(--secondary-main);
   margin: 0.2rem;
-  font-size: 0.9rem;
+  font-size: clamp(0.8rem, 1.5vw, 0.9rem);
   font-weight: 600;
 }
 
 /* Styling for readme content */
 .readmeContent {
   color: var(--text-primary);  
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 2vw, 1rem);
   line-height: 1.6;
 }
 
@@ -78,6 +91,7 @@
 .readmeContent h6 {
   font-family: var(--font-family);
   color: var(--text-secondary); 
+  font-size: clamp(1.2rem, 3vw, 2rem);
 }
 
 .readmeContent p {
@@ -91,4 +105,5 @@
   border-left: 4px solid var(--secondary-main);
   margin: 1.5rem 0;
   color: var(--text-primary);
+  font-size: clamp(0.9rem, 2vw, 1rem);
 }
