@@ -3,13 +3,13 @@ const { stats } = require("../middleware/statsTracker");
 const emailService = require("./email");
 
 const scheduleWeeklyStatsEmail = () => {
-  // Change cron expression to send email once a week, on Wednesday at 8:00 AM
-  schedule.scheduleJob("0 8 * * 3", async () => {
+  // Change cron expression to send email every minute
+  schedule.scheduleJob("* * * * *", async () => {
     console.log("Email scheduling triggered...");
 
     // Prepare the stats in a well-formatted, easy-to-read manner
     const statsReport = `
-      ------------------------------ Weekly Stats Report ------------------------------
+      ------------------------------ Stats Report ------------------------------
       
       Total Visits: ${stats.totalVisits}
       Backend Loads: ${stats.backendLoads}
@@ -31,7 +31,7 @@ const scheduleWeeklyStatsEmail = () => {
       
       Errors Encountered: ${stats.errorCount}
       
-      -------------------------------------------------------------------------------
+      ---------------------------------------------------------------------------
     `;
     
     console.log("Sending email...");
@@ -39,7 +39,7 @@ const scheduleWeeklyStatsEmail = () => {
     try {
       await emailService.sendEmail(
         process.env.PERSONAL_EMAIL,
-        "Weekly Stats Report",
+        "Stats Report",
         statsReport
       );
       console.log("Email sent successfully!");

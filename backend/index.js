@@ -21,7 +21,7 @@ app.use(statsMiddleware);
 app.use("/api", projectsRouter);
 
 // Stats endpoint
-app.use("/stats", require("./routes/stats"));
+app.use("/web_stats", require("./routes/web_stats"));
 
 // Simple health check endpoint
 app.get("/health", (req, res) => {
