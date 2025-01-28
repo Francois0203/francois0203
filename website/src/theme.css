@@ -1,8 +1,11 @@
 :root {
   /* Neutral colors for dark mode */
-  --bg-primary: #121212; 
-  --bg-secondary: #444444; 
-  --bg-tertiary: #2d2d2d; 
+  --bg-dark-primary: black; 
+  --bg-dark-secondary: gray; 
+
+  /* Neutral colors for light mode */
+  --bg-light-primary: white; 
+  --bg-light-secondary: gray; 
 
   /* Dynamic secondary gradient colors */
   --secondary-light: #80e8e1;
@@ -14,7 +17,8 @@
   --vibrant-glow: rgba(64, 216, 209, 0.5);
 
   /* Dynamic text colors */
-  --text-primary: #e0e0e0;
+  --text-dark-primary: white;
+  --text-light-primary: black;
   --text-secondary: #40d8d1;
 
   /* Hover and focus effects */
