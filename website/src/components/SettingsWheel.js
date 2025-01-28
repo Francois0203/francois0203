@@ -1,139 +1,142 @@
-import React, { useState } from "react";
+// src/components/SettingsWheel.js
+import React, { useState, useEffect, useCallback } from "react";
+import { FaSun, FaMoon } from "react-icons/fa";
 import styles from "./SettingsWheel.module.css";
 import theme from "../theme.css";
 
 const SettingsWheel = () => {
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [secondaryColor, setSecondaryColor] = useState(270); // Start with purple (HSL hue 270)
+  const [isTransitioning, setIsTransitioning] = useState(false); // Track the theme transition
 
-  const [colors, setColors] = useState({
-    bgPrimary: 18,
-    secondaryMain: "#40d8d1",
-  });
+  const applySecondaryColor = useCallback((color) => {
+    document.documentElement.style.setProperty("--secondary-main", color);
+    document.documentElement.style.setProperty("--secondary-light", adjustColorBrightness(color, 40));
+    document.documentElement.style.setProperty("--secondary-dark", adjustColorBrightness(color, -40));
+    document.documentElement.style.setProperty("--vibrant-accent", color);
+    document.documentElement.style.setProperty("--vibrant-glow", hexToRgba(color, 0.5));
+    document.documentElement.style.setProperty("--hover-effect", adjustColorBrightness(color, -20));
+    document.documentElement.style.setProperty("--text-secondary", color);
+  }, []);
 
-  const getGrayscaleRGB = (value) => {
-    return `rgb(${value}, ${value}, ${value})`;
+  useEffect(() => {
+    // Initialize the theme as dark mode
+    applyDarkMode();
+    const initialColor = "hsl(270, 100%, 50%)"; // Purple
+    applySecondaryColor(initialColor);
+  }, [applySecondaryColor]);
+
+  const applyDarkMode = () => {
+    document.documentElement.style.setProperty("--bg-primary", "var(--bg-dark-primary)");
+    document.documentElement.style.setProperty("--bg-secondary", "var(--bg-dark-secondary)");
+    document.documentElement.style.setProperty("--text-primary", "var(--text-dark-primary)");
   };
 
-  const handleBackgroundChange = (e) => {
-    const grayscaleValue = parseInt(e.target.value, 10);
-    const grayscaleRgb = getGrayscaleRGB(grayscaleValue);
-    setColors((prev) => ({ ...prev, bgPrimary: grayscaleValue }));
-
-    document.documentElement.style.setProperty("--bg-primary", grayscaleRgb);
-
-    if (grayscaleValue < 128) {
-      document.documentElement.style.setProperty(
-        "--bg-secondary",
-        adjustColorBrightness(grayscaleRgb, 70)
-      );
-      document.documentElement.style.setProperty(
-        "--bg-tertiary",
-        adjustColorBrightness(grayscaleRgb, -40)
-      );
-    } else {
-      document.documentElement.style.setProperty(
-        "--bg-secondary",
-        adjustColorBrightness(grayscaleRgb, -70)
-      );
-      document.documentElement.style.setProperty(
-        "--bg-tertiary",
-        adjustColorBrightness(grayscaleRgb, 40)
-      );
-    }
-
-    const textColor = grayscaleValue < 128 ? "#e0e0e0" : "#121212";
-    document.documentElement.style.setProperty("--text-primary", textColor);
+  const applyLightMode = () => {
+    document.documentElement.style.setProperty("--bg-primary", "var(--bg-light-primary)");
+    document.documentElement.style.setProperty("--bg-secondary", "var(--bg-light-secondary)");
+    document.documentElement.style.setProperty("--text-primary", "var(--text-light-primary)");
   };
 
-  const handleSecondaryChange = (e) => {
-    const newColor = e.target.value;
-    setColors((prev) => ({ ...prev, secondaryMain: newColor }));
-  
-    document.documentElement.style.setProperty("--secondary-main", newColor);
-    document.documentElement.style.setProperty("--secondary-light", adjustColorBrightness(newColor, 40));
-    document.documentElement.style.setProperty("--secondary-dark", adjustColorBrightness(newColor, -40));
-    document.documentElement.style.setProperty("--vibrant-accent", newColor);
-    document.documentElement.style.setProperty("--vibrant-glow", hexToRgba(newColor, 0.5));
-    document.documentElement.style.setProperty("--hover-effect", adjustColorBrightness(newColor, -20));
-    document.documentElement.style.setProperty("--text-secondary", newColor);
-  };  
+  const toggleTheme = () => {
+    // Trigger the expanding circle transition
+    setIsTransitioning(true);
 
-  const resetTheme = () => {
-    setColors({ bgPrimary: 18, secondaryMain: "#40d8d1" });
+    setTimeout(() => {
+      setIsDarkMode((prevMode) => {
+        const newMode = !prevMode;
+        if (newMode) {
+          applyDarkMode();
+        } else {
+          applyLightMode();
+        }
+        return newMode;
+      });
 
-    document.documentElement.style.setProperty("--bg-primary", "#121212");
-    document.documentElement.style.setProperty("--bg-secondary", "#444444");
-    document.documentElement.style.setProperty("--bg-tertiary", "#2d2d2d");
-    document.documentElement.style.setProperty("--secondary-main", "#40d8d1");
-    document.documentElement.style.setProperty("--secondary-light", "#80e8e1");
-    document.documentElement.style.setProperty("--secondary-dark", "#00c8c1");
-    document.documentElement.style.setProperty("--vibrant-accent", "#40d8d1");
-    document.documentElement.style.setProperty(
-      "--vibrant-glow",
-      hexToRgba("#40d8d1", 0.5)
-    );
-    document.documentElement.style.setProperty("--hover-effect", "#00c8c1");
-    document.documentElement.style.setProperty("--text-primary", "#e0e0e0");
-    document.documentElement.style.setProperty("--text-secondary", "#40d8d1");
+      // End the transition after the animation finishes
+      setTimeout(() => setIsTransitioning(false), 1000); // Matches CSS duration
+    }, 50); // Slight delay before transition
   };
 
-  const adjustColorBrightness = (rgb, amount) => {
-    const rgbValues = rgb.match(/\d+/g).map(Number);
-    const r = Math.min(255, Math.max(0, rgbValues[0] + amount));
-    const g = Math.min(255, Math.max(0, rgbValues[1] + amount));
-    const b = Math.min(255, Math.max(0, rgbValues[2] + amount));
-    return `rgb(${r}, ${g}, ${b})`;
+  const handleSecondarySliderChange = (e) => {
+    const sliderValue = e.target.value;
+    setSecondaryColor(sliderValue);
+
+    const color = `hsl(${sliderValue}, 100%, 50%)`;
+    applySecondaryColor(color);
   };
 
-  const hexToRgba = (hex, alpha) => {
-    const color = parseInt(hex.slice(1), 16);
-    const r = (color >> 16) & 255;
-    const g = (color >> 8) & 255;
-    const b = color & 255;
-    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  const adjustColorBrightness = (hsl, amount) => {
+    const [h, s, l] = hsl.match(/\d+/g).map(Number);
+    const newL = Math.min(100, Math.max(0, l + amount));
+    return `hsl(${h}, ${s}%, ${newL}%)`;
+  };
+
+  const hexToRgba = (hsl, alpha) => {
+    const [h, s, l] = hsl.match(/\d+/g).map(Number);
+    const a = alpha || 1;
+    const c = (1 - Math.abs(2 * l / 100 - 1)) * (s / 100);
+    const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+    const m = l / 100 - c / 2;
+    let r = 0, g = 0, b = 0;
+
+    if (h < 60) [r, g, b] = [c, x, 0];
+    else if (h < 120) [r, g, b] = [x, c, 0];
+    else if (h < 180) [r, g, b] = [0, c, x];
+    else if (h < 240) [r, g, b] = [0, x, c];
+    else if (h < 300) [r, g, b] = [x, 0, c];
+    else [r, g, b] = [c, 0, x];
+
+    r = Math.round((r + m) * 255);
+    g = Math.round((g + m) * 255);
+    b = Math.round((b + m) * 255);
+
+    return `rgba(${r}, ${g}, ${b}, ${a})`;
   };
 
   return (
     <div
-      className={styles.settings}
+      className={`${styles.settings} ${isTransitioning ? styles.transitioning : ""}`}
       onMouseEnter={() => setSettingsOpen(true)}
       onMouseLeave={() => setSettingsOpen(false)}
     >
       <div className={styles.wheel}>⚙️</div>
-      <div className={`${styles.dropdown} ${!settingsOpen ? styles.hidden : ""}`}>
+      <div
+        className={`${styles.dropdown} ${!settingsOpen ? styles.hidden : ""}`}
+        style={{ top: "calc(100% + 8px)", right: 0 }} // Align dropdown below wheel
+      >
         <h3 className={theme.h1}>Theme Customisation</h3>
 
+        {/* Dark/Light Mode Toggle */}
         <div className={styles.dropdownItem}>
-          <label htmlFor="bgPrimary" className={theme.h2}>
-            Background Colour
+          <label htmlFor="themeToggle" className={theme.h2}>
+            Theme Mode
           </label>
-          <input
-            type="range"
-            id="bgPrimary"
-            min="0"
-            max="255"
-            value={colors.bgPrimary}
-            onChange={handleBackgroundChange}
-            className={styles.slider}
-          />
+          <div
+            id="themeToggle"
+            onClick={toggleTheme}
+            className={styles.toggleSwitch}
+          >
+            {isDarkMode ? <FaMoon size={36} /> : <FaSun size={36} />}
+          </div>
         </div>
 
+        {/* Secondary Colour Slider */}
         <div className={styles.dropdownItem}>
-          <label htmlFor="secondaryMain" className={theme.h2}>
+          <label htmlFor="secondarySlider" className={theme.h2}>
             Secondary Colour
           </label>
           <input
-            type="color"
-            id="secondaryMain"
-            value={colors.secondaryMain}
-            onChange={handleSecondaryChange}
-            className={styles.colorPicker}
+            type="range"
+            id="secondarySlider"
+            min="0"
+            max="360"
+            value={secondaryColor}
+            onChange={handleSecondarySliderChange}
+            className={styles.colorSlider}
           />
         </div>
-
-        <button className={theme.button} onClick={resetTheme}>
-          Reset Theme
-        </button>
       </div>
     </div>
   );
