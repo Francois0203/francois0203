@@ -1,17 +1,19 @@
+// pages/Home.js
 import React from "react";
 import styles from "./Home.module.css";
-import useBackend from "../utils/useBackend"; // Import the backend check hook
-import LoadingScreen from "../components/LoadingScreen"; // Import the LoadingScreen component
+import useBackend from "../utils/useBackend";
+import LoadingScreen from "../components/LoadingScreen";
 
-const Home = () => {
-  const { loading, isBackendReady } = useBackend(); // Get backend status and loading state
+const Home = ({ requiresBackend = false }) => {
+  const { isBackendLoading, isBackendReady } = useBackend();
 
-  if (loading) {
-    return <LoadingScreen />; // Show the custom loading screen while backend is loading
+  // Show loading screen only if this page requires the backend and it's still loading
+  if (requiresBackend && isBackendLoading) {
+    return <LoadingScreen />;
   }
 
-  if (!isBackendReady) {
-    return <p>Backend is not ready. Please try again later.</p>; // Show this message if backend is not ready
+  if (requiresBackend && !isBackendReady) {
+    return <p>Backend is not ready. Please try again later.</p>;
   }
 
   return (

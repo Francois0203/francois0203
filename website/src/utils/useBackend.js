@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+// hooks/useBackend.js
+import { useState, useEffect, useCallback } from "react";
 
 const useBackend = () => {
-  const [loading, setLoading] = useState(true); // Tracks if the backend is loading
-  const [isBackendReady, setIsBackendReady] = useState(false); // Backend readiness state
-  const [isFetchingData, setIsFetchingData] = useState(false); // New state to track data fetching
+  const [isBackendLoading, setIsBackendLoading] = useState(true);
+  const [isBackendReady, setIsBackendReady] = useState(false);
+  const [isFetchingData, setIsFetchingData] = useState(false);
 
   useEffect(() => {
     const checkBackendStatus = async () => {
@@ -14,31 +15,29 @@ const useBackend = () => {
             : "http://localhost:3000/health"
         );
 
-        if (!response.ok) {
-          throw new Error("Backend not available");
-        }
+        if (!response.ok) throw new Error("Backend not available");
 
         setIsBackendReady(true);
       } catch (error) {
         console.error("Error checking backend status:", error);
       } finally {
-        setLoading(false);
+        setIsBackendLoading(false);
       }
     };
 
     checkBackendStatus();
   }, []);
 
-  // Function to track data fetching state
-  const startFetchingData = () => setIsFetchingData(true);
-  const stopFetchingData = () => setIsFetchingData(false);
+  // Memoize the functions so they don’t get re-created on each render
+  const startFetchingData = useCallback(() => setIsFetchingData(true), []);
+  const stopFetchingData = useCallback(() => setIsFetchingData(false), []);
 
   return {
-    loading, 
-    isBackendReady, 
-    isFetchingData, 
+    isBackendLoading,
+    isBackendReady,
+    isFetchingData,
     startFetchingData,
-    stopFetchingData
+    stopFetchingData,
   };
 };
 
