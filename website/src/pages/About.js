@@ -1,8 +1,9 @@
+// pages/About.js
 import React, { useEffect, useState } from "react";
 import styles from "./About.module.css";
 import useBackend from "../utils/useBackend";
 import LoadingScreen from "../components/LoadingScreen";
-import "../theme.css"
+import "../theme.css";
 
 // Import logos and profile image
 import pythonLogo from "../logos/python.png";
@@ -27,16 +28,23 @@ import githubLogo from "../logos/github.png";
 import spotifyLogo from "../logos/spotify.png";
 import profileImage from "../extras/profile.png";
 
-const About = () => {
+const About = ({ requiresBackend = false }) => {
   const [randomAnimation, setRandomAnimation] = useState("");
-  const { loading, isBackendReady } = useBackend();
-  const [isFetchingData] = useState(false);
+  const { isBackendLoading, isBackendReady } = useBackend();
 
   useEffect(() => {
     const animations = ["fadeIn", "bounceIn", "slideInFromLeft"];
-    const randomIndex = Math.floor(Math.random() * animations.length);
-    setRandomAnimation(animations[randomIndex]);
+    setRandomAnimation(animations[Math.floor(Math.random() * animations.length)]);
   }, []);
+
+  // Show loading screen only if this page requires the backend and it's still loading
+  if (requiresBackend && isBackendLoading) {
+    return <LoadingScreen />;
+  }
+
+  if (requiresBackend && !isBackendReady) {
+    return <p>Backend is not ready. Please try again later.</p>;
+  }
 
   const skills = [
     { name: "Python", confidence: 90, logo: pythonLogo, color: "#3572A5" },
@@ -62,14 +70,6 @@ const About = () => {
     { name: "GitHub", url: "https://github.com/Francois0203", logo: githubLogo },
     { name: "Spotify", url: "https://open.spotify.com/user/sfg2o0rk75xfki3r2074qjbh0?si=5d6f997e1de64081", logo: spotifyLogo },
   ];
-
-  if (loading || isFetchingData) {
-    return <LoadingScreen />;
-  }
-
-  if (!isBackendReady) {
-    return <p>Backend is not ready. Please try again later.</p>;
-  }
 
   return (
     <div className={styles.container}>
