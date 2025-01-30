@@ -2,7 +2,6 @@ const express = require("express");
 const axios = require("axios");
 const router = express.Router();
 
-// Dynamic GitHub API URL
 const GITHUB_API_BASE_URL = "https://api.github.com";
 const GITHUB_USERNAME = "Francois0203";
 
@@ -18,55 +17,98 @@ const fetchFromGitHub = async (url, token, accept = "application/vnd.github.v3+j
     return response.data;
   } catch (error) {
     console.error(`Error fetching from ${url}: ${error.message}`);
-    throw error;
+    return null; // Return null to handle missing data gracefully
   }
 };
 
-// Route to fetch repositories
-router.get("/repos", async (req, res) => {
-  const githubToken = process.env.REACT_APP_GITHUB_TOKEN; // Use your token
+// Helper to fetch the README for a repository
+const fetchReadme = async (repoFullName, token) => {
+  const readmeUrl = `${GITHUB_API_BASE_URL}/repos/${repoFullName}/readme`;
+  const readme = await fetchFromGitHub(readmeUrl, token, "application/vnd.github.VERSION.raw");
+  return readme;
+};
+
+// Helper to fetch languages for a specific repository
+const fetchLanguages = async (repoFullName, token) => {
+  const languagesUrl = `${GITHUB_API_BASE_URL}/repos/${repoFullName}/languages`;
+  const languages = await fetchFromGitHub(languagesUrl, token);
+  return languages;
+};
+
+// Fetch personal repositories including README and languages
+const fetchPersonalRepositories = async (token) => {
   const reposUrl = `${GITHUB_API_BASE_URL}/user/repos?visibility=all&per_page=100`;
-
-  try {
-    // Fetch repositories from GitHub
-    const repos = await fetchFromGitHub(reposUrl, githubToken);
-
-    // Prepare repository details with README and languages
-    const reposWithDetails = await Promise.all(
-      repos.map(async (repo) => { 
-        const readmeUrl = `${GITHUB_API_BASE_URL}/repos/${repo.owner.login}/${repo.name}/readme`;
-        const languagesUrl = `${GITHUB_API_BASE_URL}/repos/${repo.owner.login}/${repo.name}/languages`;
-
-        let readme = null;
-        let languages = null;
-
-        try {
-          readme = await fetchFromGitHub(readmeUrl, githubToken, "application/vnd.github.v3.raw");
-        } catch {
-          console.warn(`README not found for ${repo.name}`);
-        }
-
-        try {
-          languages = await fetchFromGitHub(languagesUrl, githubToken);
-        } catch {
-          console.warn(`Languages not found for ${repo.name}`);
-        }
-
+  const repos = await fetchFromGitHub(reposUrl, token);
+  return repos
+    ? await Promise.all(repos.filter((repo) => repo.owner.login === GITHUB_USERNAME).map(async (repo) => {
+        const readme = await fetchReadme(repo.full_name, token); // Fetch the README content
+        const languages = await fetchLanguages(repo.full_name, token); // Fetch the languages
         return {
           id: repo.id,
           name: repo.name,
           description: repo.description,
           html_url: repo.html_url,
+          readme: readme || "", // Store the README content
+          languages: languages || {}, // Store the languages
           private: repo.private,
-          readme,
-          languages,
         };
-      })
+      }))
+    : [];
+};
+
+// Fetch organizations the user is part of
+const fetchOrganizations = async (token) => {
+  const orgsUrl = `${GITHUB_API_BASE_URL}/user/orgs`;
+  const orgs = await fetchFromGitHub(orgsUrl, token);
+  return orgs ? orgs.map((org) => ({
+    id: org.id,
+    name: org.login,
+  })) : [];
+};
+
+// Fetch repositories for a specific organization including README and languages
+const fetchOrganizationRepositories = async (orgName, token) => {
+  const reposUrl = `${GITHUB_API_BASE_URL}/orgs/${orgName}/repos?per_page=100`;
+  const repos = await fetchFromGitHub(reposUrl, token);
+  return repos
+    ? await Promise.all(repos.map(async (repo) => {
+        const readme = await fetchReadme(repo.full_name, token); // Fetch the README content
+        const languages = await fetchLanguages(repo.full_name, token); // Fetch the languages
+        return {
+          id: repo.id,
+          name: repo.name,
+          description: repo.description,
+          html_url: repo.html_url,
+          readme: readme || "", // Store the README content
+          languages: languages || {}, // Store the languages
+          private: repo.private,
+        };
+      }))
+    : [];
+};
+
+// Route to fetch personal projects and organization repositories
+router.get("/", async (req, res) => {
+  const githubToken = process.env.REACT_APP_GITHUB_TOKEN;
+
+  try {
+    // Fetch personal repositories
+    const personalProjects = await fetchPersonalRepositories(githubToken);
+
+    // Fetch organizations
+    const organizations = await fetchOrganizations(githubToken);
+
+    // Fetch repositories for each organization
+    const orgsWithRepos = await Promise.all(
+      organizations.map(async (org) => ({
+        ...org,
+        repositories: await fetchOrganizationRepositories(org.name, githubToken),
+      }))
     );
 
-    res.status(200).json(reposWithDetails);
+    res.status(200).json({ personalProjects, organizations: orgsWithRepos });
   } catch (error) {
-    console.error("Error fetching repositories:", error.message);
+    console.error("Error fetching projects:", error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });

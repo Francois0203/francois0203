@@ -22,7 +22,7 @@
   }
 }
 
-/* Project card styling */
+/* Unified container for all repositories (personal and organizations) */
 .projectCard {
   background-color: var(--bg-secondary);
   border: 2px solid var(--secondary-main);
@@ -33,8 +33,9 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 100%; /* Ensures the card stretches to fit the grid column */
+  max-width: 100%;
   box-sizing: border-box;
+  margin-bottom: 1rem; /* Ensures spacing between cards */
 }
 
 .projectCard:hover {
@@ -106,4 +107,22 @@
   margin: 1.5rem 0;
   color: var(--text-primary);
   font-size: clamp(0.9rem, 2vw, 1rem);
+}
+
+/* Tab container and titles */
+.tabTitle {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.tabTitle:hover {
+  color: var(--secondary-main);  /* Adds hover effect for tab titles */
+}
+
+/* When a tab is expanded, change text color to secondary-text */
+.tabTitle.expanded {
+  color: var(--secondary-main); /* Change text color when expanded */
 }
