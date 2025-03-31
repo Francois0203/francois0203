@@ -19,17 +19,17 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd website
-          yarn install
+          cd frontend
+          npm install
 
       - name: Build the app
         run: |
-          cd website
-          yarn build
+          cd frontend
+          npm run build
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: website/build
+          folder: frontend/build
           token: ${{ secrets.GITHUB_TOKEN }}
